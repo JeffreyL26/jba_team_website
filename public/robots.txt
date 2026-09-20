@@ -1,0 +1,15 @@
+# jba-team.com
+# Note: this file replaces the robots.txt Cloudflare generated automatically.
+# That one contained only comments describing the content-signal vocabulary and
+# declared no signals, so no crawling rule is lost here. If you want to state a
+# position on AI training or AI input, add a Content-Signal line below.
+
+User-agent: *
+Allow: /
+Disallow: /ohrganize-testers
+Disallow: /ohrganize-testers.html
+Disallow: /hrmonic-testers
+Disallow: /hrmonic-testers.html
+Disallow: /api/
+
+Sitemap: https://jba-team.com/sitemap.xml

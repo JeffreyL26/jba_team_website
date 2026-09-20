@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 - Page not found - jba~team</title>
+<meta name="description" content="This page could not be found on jba-team.com.">
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#F7F5FB">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/jetbrains-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts.css">
+<style>
+  :root{
+    --blue:#3300F3;
+    --violet:#8A44FC;
+    --magenta:#FB00C3;
+    --pink:#FF81D8;
+
+    --pastel-blue:#D7DEFF;
+    --pastel-violet:#E6DBFF;
+    --pastel-pink:#FFDCF1;
+    --pastel-peach:#FFE7E0;
+
+    --ink:#171522;
+    --ink-soft:#5b5570;
+    --bg:#F7F5FB;
+
+    --scan-green:#1F9D6B;
+
+    --grad: linear-gradient(100deg, var(--blue) 0%, var(--violet) 38%, var(--magenta) 72%, var(--pink) 100%);
+
+    --font-display:"Space Grotesk", system-ui, sans-serif;
+    --font-body:"Plus Jakarta Sans", system-ui, sans-serif;
+    --font-mono:"JetBrains Mono", ui-monospace, monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--ink);
+    background:var(--bg);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--pastel-violet); }
+
+  /* ---------- soft pastel blob field ---------- */
+  .scene{ position:fixed; inset:0; overflow:hidden; z-index:0; pointer-events:none; }
+  .blob{ position:absolute; border-radius:50%; filter:blur(46px); opacity:.6; mix-blend-mode:multiply; }
+  .b1{ width:54vw; height:54vw; left:-14vw; top:-16vw;
+       background:radial-gradient(circle at 35% 35%, var(--pastel-violet), transparent 70%); }
+  .b2{ width:46vw; height:46vw; right:-12vw; top:-10vw;
+       background:radial-gradient(circle at 60% 40%, var(--pastel-pink), transparent 70%); }
+  .b3{ width:50vw; height:50vw; left:-8vw; bottom:-20vw;
+       background:radial-gradient(circle at 50% 50%, var(--pastel-blue), transparent 70%); }
+  .b4{ width:42vw; height:42vw; right:-10vw; bottom:-18vw;
+       background:radial-gradient(circle at 40% 60%, var(--pastel-peach), transparent 70%); }
+
+  /* ---------- layout ---------- */
+  .wrap{
+    position:relative; z-index:2;
+    min-height:100svh;
+    max-width:1100px;
+    margin:0 auto;
+    padding:clamp(22px,4vh,46px) clamp(22px,5vw,64px) clamp(28px,5vh,52px);
+    display:flex; flex-direction:column;
+  }
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+  }
+  .brand img{ height:44px; width:auto; display:block; }
+  .backlink{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:.02em;
+    color:var(--ink-soft); text-decoration:none;
+    border:1px solid rgba(23,21,34,.12);
+    background:rgba(255,255,255,.55); backdrop-filter:blur(6px);
+    padding:7px 13px; border-radius:100px;
+    transition:color .2s, border-color .2s;
+  }
+  .backlink:hover{ color:var(--ink); border-color:rgba(23,21,34,.3); }
+
+  main{
+    flex:1;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    padding:clamp(24px,6vh,60px) 0;
+  }
+
+  /* ---------- terminal line ---------- */
+  .term{
+    font-family:var(--font-mono);
+    font-size:clamp(12.5px,1.5vw,15px);
+    color:var(--ink-soft);
+    background:rgba(255,255,255,.6);
+    border:1px solid rgba(23,21,34,.1);
+    backdrop-filter:blur(8px);
+    border-radius:14px;
+    padding:12px 18px;
+    text-align:left;
+    max-width:min(640px,100%);
+    width:100%;
+    min-height:3.4em;
+    white-space:pre-wrap; word-break:break-all;
+  }
+  .term .tilde{
+    font-weight:700; font-size:1.25em;
+    background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .term .cmd{ color:var(--ink); }
+  .term .err{ color:var(--magenta); }
+  .term .cursor-block{
+    display:inline-block; width:.6em; height:1.1em; vertical-align:-.2em;
+    background:var(--magenta); margin-left:2px;
+    animation:blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  /* ---------- the digits ---------- */
+  .digits{
+    display:flex; align-items:center; justify-content:center;
+    gap:clamp(6px,2vw,22px);
+    margin:0;
+    padding:.04em .06em;
+    perspective:1000px;
+    user-select:none;
+  }
+  .digit{
+    position:relative;
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(120px,24vw,260px);
+    line-height:1;
+    letter-spacing:-.06em;
+    color:var(--ink);
+    transform-style:preserve-3d;
+    will-change:transform;
+    cursor:pointer;
+    touch-action:manipulation;
+  }
+  .digit.zero{
+    background:var(--grad);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  /* scan line that sweeps the digits, echoes the ScanConvert app */
+  .digits-frame{
+    position:relative; display:inline-block;
+    margin:clamp(26px,5vh,52px) 0 clamp(18px,3vh,30px);
+  }
+  .scanline{
+    position:absolute; left:-4%; right:-4%; height:3px; top:10%;
+    border-radius:3px;
+    background:linear-gradient(90deg, transparent, var(--scan-green) 25%, var(--scan-green) 75%, transparent);
+    box-shadow:0 0 18px 2px color-mix(in srgb, var(--scan-green) 55%, transparent);
+    opacity:.85; pointer-events:none;
+    z-index:3;
+  }
+  /* corner brackets like the app icon */
+  .corner{
+    position:absolute; width:clamp(22px,4vw,40px); height:clamp(22px,4vw,40px);
+    border:4px solid rgba(23,21,34,.85); border-radius:6px;
+    pointer-events:none; z-index:2;
+  }
+  .corner.tl{ left:-5%; top:6%;     border-right:none; border-bottom:none; }
+  .corner.tr{ right:-5%; top:6%;    border-left:none;  border-bottom:none; }
+  .corner.bl{ left:-5%; bottom:6%;  border-right:none; border-top:none; }
+  .corner.br{ right:-5%; bottom:6%; border-left:none;  border-top:none; }
+
+  h1{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(24px,3.6vw,40px);
+    letter-spacing:-.03em;
+    line-height:1.1;
+    margin:0 0 10px;
+  }
+  h1 .hl{ background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .lead{
+    font-size:clamp(15px,1.6vw,17px);
+    line-height:1.65;
+    color:var(--ink-soft);
+    max-width:520px;
+    margin:0 auto;
+  }
+
+  /* ---------- actions ---------- */
+  .actions{
+    display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap;
+    margin-top:clamp(22px,4vh,34px);
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    font-family:var(--font-mono); font-size:13.5px; font-weight:500;
+    text-decoration:none;
+    padding:14px 22px; border-radius:100px;
+    transition:transform .2s, box-shadow .25s;
+    position:relative;
+    border:none; cursor:pointer;
+  }
+  .btn.primary{
+    color:#fff; background:var(--ink);
+    box-shadow:0 14px 34px -14px rgba(23,21,34,.55);
+  }
+  .btn.primary .ic{
+    width:24px; height:24px; border-radius:50%;
+    background:var(--grad); display:grid; place-items:center; flex:0 0 auto;
+  }
+  .btn.primary .ic svg{ width:12px; height:12px; }
+  .btn.ghost{
+    color:var(--ink);
+    background:rgba(255,255,255,.7);
+    border:1px solid rgba(23,21,34,.1);
+    backdrop-filter:blur(8px);
+    box-shadow:0 10px 30px -14px rgba(74,32,140,.4);
+  }
+  .btn.ghost::before{
+    content:""; position:absolute; inset:-1px; border-radius:inherit; padding:1px;
+    background:var(--grad);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor; mask-composite:exclude;
+    opacity:0; transition:opacity .25s;
+  }
+  .btn:hover{ transform:translateY(-2px); }
+  .btn.ghost:hover::before{ opacity:1; }
+  .btn.primary:hover{ box-shadow:0 20px 44px -16px rgba(23,21,34,.6); }
+
+  .hint{
+    font-family:var(--font-mono); font-size:11.5px;
+    color:var(--ink-soft); opacity:.7;
+    margin-top:18px;
+  }
+
+  /* ---------- footer ---------- */
+  .footer{
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    font-family:var(--font-mono); font-size:12px; color:var(--ink-soft);
+    flex-wrap:wrap;
+  }
+  .footer .domain b{ color:var(--ink); font-weight:500; }
+  .footer .legal{ display:flex; gap:10px; }
+  .footer .legal a{
+    color:var(--ink-soft); text-decoration:none;
+    border:1px solid rgba(23,21,34,.1); background:rgba(255,255,255,.4);
+    padding:5px 11px; border-radius:100px; opacity:.75;
+    transition:opacity .2s, color .2s;
+  }
+  .footer .legal a:hover{ opacity:1; color:var(--ink); }
+
+  @media (max-width:640px){
+    .footer{ flex-direction:column; gap:12px; }
+    .hint{ display:none; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .term .cursor-block{ animation:none; }
+    .scanline{ display:none; }
+  }
+
+  /* ============ custom cursor (fine pointers only), same as homepage ============ */
+  .cursor-dot,.cursor-ring{
+    position:fixed; top:0; left:0; z-index:9999;
+    pointer-events:none; border-radius:50%;
+    transform:translate(-50%,-50%);
+    display:none;
+  }
+  .cursor-dot{ width:8px; height:8px; background:var(--grad); }
+  .cursor-ring{
+    width:34px; height:34px;
+    border:1.5px solid rgba(138,68,252,.55);
+    transition:width .25s, height .25s, border-color .25s, background .25s;
+  }
+  body.cursor-on .cursor-dot, body.cursor-on .cursor-ring{ display:block; }
+  body.cursor-on, body.cursor-on a, body.cursor-on button, body.cursor-on .digit{ cursor:none; }
+  .cursor-ring.is-hover{
+    width:56px; height:56px;
+    border-color:rgba(251,0,195,.7);
+    background:rgba(251,0,195,.06);
+  }
+</style>
+</head>
+<body>
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+  <div class="scene" aria-hidden="true">
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div><div class="blob b4"></div>
+  </div>
+
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="jba~team">
+        <img src="/assets/jba-logo.svg" alt="">
+      </a>
+      <a class="backlink" href="/">&larr; back to jba-team.com</a>
+    </header>
+
+    <main>
+      <div class="term" id="term" aria-live="polite"><span class="tilde">~</span>/ $ <span class="cmd" id="termCmd"></span><span class="cursor-block" id="termCursor"></span></div>
+
+      <div class="digits-frame" aria-hidden="true">
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+        <div class="digits" id="digits">
+          <span class="digit" data-i="0">4</span>
+          <span class="digit zero" data-i="1">0</span>
+          <span class="digit" data-i="2">4</span>
+        </div>
+        <div class="scanline" id="scanline"></div>
+      </div>
+
+      <h1>Scanned everything. <span class="hl">Nothing found.</span></h1>
+      <p class="lead">The page you're looking for isn't here. It may have moved, been renamed, or never existed. The rest of the studio is exactly where you left it.</p>
+
+      <div class="actions">
+        <a class="btn primary" href="/">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M3 11.5 12 4l9 7.5M5.5 10v9.5h13V10" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          back home
+        </a>
+        <button class="btn ghost" id="backBtn" type="button">&larr; previous page</button>
+        <a class="btn ghost" href="/#contact">report a broken link &rarr;</a>
+      </div>
+      <p class="hint" id="hint">psst: the digits react to your pointer. click one.</p>
+    </main>
+
+    <footer class="footer">
+      <span class="domain"><b>jba-team.com</b></span>
+      <span class="legal">
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Use</a>
+      </span>
+    </footer>
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = id => document.getElementById(id);
+
+  /* ---- "previous page" only makes sense if there is one ---- */
+  const backBtn = $('backBtn');
+  if (history.length > 1 && document.referrer && new URL(document.referrer).origin === location.origin){
+    backBtn.addEventListener('click', () => history.back());
+  } else {
+    backBtn.remove();
+  }
+
+  /* ---- terminal: type the path that was requested, then the error ---- */
+  const path = (location.pathname + location.search).slice(0, 80) || '/';
+  const cmd = `cd ${path}`;
+  const err = `\ncd: no such file or directory: ${path}`;
+  const cmdEl = $('termCmd'), term = $('term');
+  function type(text, into, speed, done){
+    let i = 0;
+    (function step(){
+      if (i < text.length){ into.textContent += text[i++]; setTimeout(step, speed + Math.random() * 40); }
+      else done && done();
+    })();
+  }
+  if (reduce){
+    cmdEl.textContent = cmd;
+    const e = document.createElement('span'); e.className = 'err'; e.textContent = err;
+    cmdEl.after(e);
+  } else {
+    setTimeout(() => type(cmd, cmdEl, 45, () => {
+      const e = document.createElement('span'); e.className = 'err';
+      cmdEl.after(e);
+      setTimeout(() => type(err, e, 14), 260);
+    }), 500);
+  }
+
+  if (!window.gsap || reduce) return;
+
+  /* ---- intro ---- */
+  gsap.from('.digit', { yPercent:60, opacity:0, duration:.9, ease:'power4.out', stagger:.08 });
+  gsap.from('h1, .lead, .actions, .hint', { y:24, opacity:0, duration:.8, ease:'power3.out', stagger:.08, delay:.3 });
+
+  /* ---- scan line sweeps the digits, like the app ---- */
+  gsap.fromTo('#scanline', { top:'8%' }, { top:'92%', duration:2.4, yoyo:true, repeat:-1, ease:'sine.inOut' });
+
+  /* ---- digits: parallax + 3D tilt following the pointer ---- */
+  const digits = [...document.querySelectorAll('.digit')];
+  const frame = document.querySelector('.digits-frame');
+  const setters = digits.map(d => ({
+    x: gsap.quickTo(d, 'x', { duration:.5, ease:'power3' }),
+    y: gsap.quickTo(d, 'y', { duration:.5, ease:'power3' }),
+    rx: gsap.quickTo(d, 'rotationX', { duration:.6, ease:'power3' }),
+    ry: gsap.quickTo(d, 'rotationY', { duration:.6, ease:'power3' })
+  }));
+  let idle = true, idleTween = null;
+  function startIdle(){
+    idle = true;
+    idleTween = gsap.to(digits, {
+      y: (i) => (i % 2 ? 14 : -14), rotationY: (i) => (i - 1) * 6,
+      duration: 2.6, yoyo: true, repeat: -1, ease: 'sine.inOut', stagger: .25
+    });
+  }
+  startIdle();
+  window.addEventListener('pointermove', e => {
+    if (!matchMedia('(pointer:fine)').matches) return;
+    if (idle){ idle = false; idleTween && idleTween.kill(); }
+    const r = frame.getBoundingClientRect();
+    const nx = (e.clientX - (r.left + r.width / 2)) / r.width;    /* -0.5 … 0.5 across the frame */
+    const ny = (e.clientY - (r.top + r.height / 2)) / r.height;
+    digits.forEach((d, i) => {
+      const depth = i === 1 ? 1.6 : 1;                              /* the zero floats closest */
+      setters[i].x(nx * 34 * depth);
+      setters[i].y(ny * 26 * depth);
+      setters[i].ry(nx * 28 * depth);
+      setters[i].rx(-ny * 22 * depth);
+    });
+  });
+  document.addEventListener('pointerleave', () => {
+    digits.forEach((d, i) => { setters[i].x(0); setters[i].y(0); setters[i].rx(0); setters[i].ry(0); });
+    setTimeout(() => { if (!idle) startIdle(); }, 700);
+  });
+
+  /* ---- click / tap a digit: spin & bounce, the zero re-scans ---- */
+  digits.forEach((d, i) => {
+    d.addEventListener('pointerdown', () => {
+      gsap.timeline()
+        .to(d, { scale:.86, duration:.12, ease:'power2.in' })
+        .to(d, { scale:1, rotationY:'+=360', duration:.9, ease:'elastic.out(1,.45)' });
+      if (i === 1){
+        gsap.fromTo('#scanline', { top:'8%', opacity:1 }, { top:'92%', duration:.45, ease:'power2.inOut' });
+      }
+      $('hint').textContent = i === 1 ? 'still nothing. told you.' : 'nope, that one is empty too.';
+    });
+  });
+})();
+
+/* custom cursor (fine pointers, motion ok) - same behaviour as the homepage */
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!matchMedia('(pointer:fine)').matches || reduce || !window.gsap) return;
+  document.body.classList.add('cursor-on');
+  const dot = document.querySelector('.cursor-dot');
+  const ring = document.querySelector('.cursor-ring');
+  const setDotX = gsap.quickTo(dot, 'x', { duration:.08 });
+  const setDotY = gsap.quickTo(dot, 'y', { duration:.08 });
+  const setRingX = gsap.quickTo(ring, 'x', { duration:.35, ease:'power3' });
+  const setRingY = gsap.quickTo(ring, 'y', { duration:.35, ease:'power3' });
+  window.addEventListener('pointermove', e => {
+    setDotX(e.clientX); setDotY(e.clientY);
+    setRingX(e.clientX); setRingY(e.clientY);
+  });
+  document.querySelectorAll('a, button, .digit').forEach(t => {
+    t.addEventListener('pointerenter', () => ring.classList.add('is-hover'));
+    t.addEventListener('pointerleave', () => ring.classList.remove('is-hover'));
+  });
+})();
+</script>
+</body>
+</html>

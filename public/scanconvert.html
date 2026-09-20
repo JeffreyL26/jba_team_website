@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ScanConvert - Camera Currency Converter | jba~team</title>
+<meta name="description" content="ScanConvert by jba~team: point your camera at any price and instantly see what it costs in your money. 166 currencies, works offline. Now on Google Play.">
+<link rel="canonical" href="https://jba-team.com/scanconvert">
+<meta name="theme-color" content="#F7F5FB">
+<meta name="author" content="jba~team">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="jba~team">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://jba-team.com/scanconvert">
+<meta property="og:title" content="ScanConvert - Travel Tool by jba~team">
+<meta property="og:description" content="Point your camera at any price and instantly see what it costs in your money. 166 currencies, works offline. Now on Google Play.">
+<meta property="og:image" content="https://jba-team.com/assets/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The jba~team wordmark on a soft pastel gradient. Below it: apps · websites · games.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ScanConvert - Travel Tool by jba~team">
+<meta name="twitter:description" content="Point your camera at any price and instantly see what it costs in your money. 166 currencies, works offline. Now on Google Play.">
+<meta name="twitter:image" content="https://jba-team.com/assets/og-image.png">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts.css">
+<style>
+  :root{
+    /* brand spectrum pulled from the logo */
+    --blue:#3300F3;
+    --violet:#8A44FC;
+    --magenta:#FB00C3;
+    --pink:#FF81D8;
+
+    /* pastel tints of the same hues */
+    --pastel-blue:#D7DEFF;
+    --pastel-violet:#E6DBFF;
+    --pastel-pink:#FFDCF1;
+    --pastel-peach:#FFE7E0;
+
+    --ink:#171522;
+    --ink-soft:#5b5570;
+    --bg:#F7F5FB;
+
+    /* the app's own accent: the scanner green */
+    --scan-green:#1F9D6B;
+
+    --grad: linear-gradient(100deg, var(--blue) 0%, var(--violet) 38%, var(--magenta) 72%, var(--pink) 100%);
+
+    --font-display:"Space Grotesk", system-ui, sans-serif;
+    --font-body:"Plus Jakarta Sans", system-ui, sans-serif;
+    --font-mono:"JetBrains Mono", ui-monospace, monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--ink);
+    background:var(--bg);
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--pastel-violet); }
+
+  /* ---------- soft pastel blob field ---------- */
+  .scene{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:0;
+    pointer-events:none;
+  }
+  .blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(46px);
+    opacity:.6;
+    mix-blend-mode:multiply;
+  }
+  .b1{ width:54vw; height:54vw; left:-14vw; top:-16vw;
+       background:radial-gradient(circle at 35% 35%, var(--pastel-violet), transparent 70%); }
+  .b2{ width:46vw; height:46vw; right:-12vw; top:-10vw;
+       background:radial-gradient(circle at 60% 40%, var(--pastel-pink), transparent 70%); }
+  .b3{ width:50vw; height:50vw; left:-8vw; bottom:-20vw;
+       background:radial-gradient(circle at 50% 50%, var(--pastel-blue), transparent 70%); }
+  .b4{ width:42vw; height:42vw; right:-10vw; bottom:-18vw;
+       background:radial-gradient(circle at 40% 60%, var(--pastel-peach), transparent 70%); }
+
+  /* ---------- layout ---------- */
+  .wrap{
+    position:relative;
+    z-index:2;
+    max-width:860px;
+    margin:0 auto;
+    padding:clamp(22px,4vh,46px) clamp(22px,5vw,64px) clamp(40px,8vh,80px);
+  }
+
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:clamp(36px,7vh,64px);
+  }
+  .brand img{ height:44px; width:auto; display:block; }
+  .backlink{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:.02em;
+    color:var(--ink-soft);
+    text-decoration:none;
+    border:1px solid rgba(23,21,34,.12);
+    background:rgba(255,255,255,.55);
+    backdrop-filter:blur(6px);
+    padding:7px 13px;
+    border-radius:100px;
+    transition:color .2s, border-color .2s;
+  }
+  .backlink:hover{ color:var(--ink); border-color:rgba(23,21,34,.3); }
+
+  .status{
+    font-family:var(--font-mono);
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.22em;
+    color:var(--violet);
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .status::before{
+    content:"";
+    width:34px;height:1px;
+    background:linear-gradient(90deg,transparent,var(--violet));
+  }
+  .status::after{
+    content:"";
+    width:34px;height:1px;
+    background:linear-gradient(90deg,var(--violet),transparent);
+  }
+
+  /* ---------- app hero: icon + animated title ---------- */
+  .app-hero{
+    display:flex;
+    align-items:center;
+    gap:clamp(18px,3vw,30px);
+    margin:16px 0 8px;
+  }
+  .app-icon{
+    position:relative;
+    flex:0 0 auto;
+    width:clamp(84px,13vw,124px);
+    aspect-ratio:1;
+    border-radius:26%;
+  }
+  .app-icon img{
+    width:100%; height:100%;
+    border-radius:26%;
+    display:block;
+    box-shadow:0 26px 60px -22px rgba(23,21,34,.5), 0 0 0 1px rgba(255,255,255,.15) inset;
+  }
+  /* the title block carries the scan line */
+  .title-wrap{ position:relative; min-width:0; }
+  /* scan line sweeping the title, same look as the homepage spotlight */
+  .scanline{
+    position:absolute; left:-2%; right:-2%; height:3px;
+    top:0;
+    border-radius:3px;
+    background:linear-gradient(90deg, transparent, var(--scan-green) 25%, var(--scan-green) 75%, transparent);
+    box-shadow:0 0 18px 2px color-mix(in srgb, var(--scan-green) 55%, transparent);
+    opacity:0;
+    pointer-events:none;
+  }
+
+  /* the title is a 2-layer stack: both phrases share one grid cell, so the
+     h1 is exactly as wide as the wider phrase and the layout never shifts.
+     JS then scales the longer phrase so both render at the same width. */
+  .app-title{
+    display:inline-grid;
+    margin:0;
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(36px,6.4vw,64px);
+    line-height:1.12;
+    letter-spacing:-.035em;
+    min-width:0;
+  }
+  .app-title .word{
+    grid-area:1 / 1;
+    display:block;
+    overflow:hidden;
+    white-space:nowrap;
+    /* room for descenders (the "y" in Play) inside the clipping box */
+    padding-bottom:.12em;
+    margin-bottom:-.12em;
+  }
+  .app-title .word > span{
+    display:inline-block;
+    will-change:transform;
+  }
+  .app-title .t-name{ color:var(--ink); }
+  .app-title .t-store{ color:var(--blue); }
+
+  .meta{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin:12px 0 0;
+  }
+
+  /* ---------- actions ---------- */
+  .actions{
+    display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+    margin:clamp(22px,4vh,34px) 0 clamp(30px,6vh,52px);
+  }
+  .play-badge{
+    display:inline-flex; align-items:center; gap:12px;
+    padding:12px 20px 12px 16px;
+    border-radius:14px;
+    background:var(--ink);
+    color:#fff;
+    text-decoration:none;
+    position:relative;
+    box-shadow:0 16px 38px -16px rgba(23,21,34,.55);
+    transition:transform .2s, box-shadow .2s;
+  }
+  .play-badge:hover{ transform:translateY(-2px); box-shadow:0 22px 46px -18px rgba(23,21,34,.6); }
+  .play-badge svg{ width:26px; height:26px; flex:0 0 auto; }
+  .play-badge .lines{ display:flex; flex-direction:column; line-height:1.15; text-align:left; }
+  .play-badge .lines small{
+    font-family:var(--font-mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; opacity:.75;
+  }
+  .play-badge .lines b{ font-family:var(--font-display); font-size:17px; font-weight:600; letter-spacing:-.01em; }
+
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chips span{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--ink-soft);
+    border:1px solid rgba(23,21,34,.12);
+    background:rgba(255,255,255,.55);
+    padding:6px 12px;
+    border-radius:100px;
+    display:inline-flex; align-items:center; gap:7px;
+  }
+  .chips span::before{
+    content:""; width:6px; height:6px; border-radius:50%;
+    background:var(--scan-green);
+  }
+
+  /* ---------- cards / sections ---------- */
+  .card{
+    background:rgba(255,255,255,.72);
+    border:1px solid rgba(23,21,34,.08);
+    backdrop-filter:blur(8px);
+    border-radius:22px;
+    padding:clamp(24px,4vw,44px);
+    box-shadow:0 10px 30px -18px rgba(74,32,140,.35);
+  }
+  .card + .card{ margin-top:clamp(18px,3vh,26px); }
+  .card h2{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(19px,2.4vw,23px);
+    letter-spacing:-.01em;
+    margin:0 0 14px;
+  }
+  .card h2::before{
+    content:"~ ";
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .card p{
+    font-size:15.5px;
+    line-height:1.65;
+    color:var(--ink);
+    margin:0 0 14px;
+  }
+  .card p:last-child{ margin-bottom:0; }
+  .card .soft{ color:var(--ink-soft); }
+  .card a{ color:var(--violet); text-decoration:none; border-bottom:1px solid rgba(138,68,252,.3); }
+  .card a:hover{ border-bottom-color:var(--violet); }
+
+  /* empty-state slot: reserves the height until copy arrives, fully invisible */
+  .placeholder{
+    min-height:72px;
+  }
+
+  /* .plain keeps the card's typography but drops the panel: the section reads
+     as if it were written straight onto the page background. */
+  .card.plain{
+    background:none;
+    border:none;
+    backdrop-filter:none;
+    box-shadow:none;
+    border-radius:0;
+    padding:0;
+  }
+  .card.plain + .card{ margin-top:clamp(30px,5vh,48px); }
+
+  /* subtle dateline under a heading, same quiet register as the changelog dates */
+  .sec-date{
+    display:block;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    letter-spacing:.08em;
+    color:var(--ink-soft);
+    opacity:.8;
+    margin:-6px 0 16px;
+  }
+
+  /* ---------- thank you ----------
+     Large, wrapped word-lines. Words are joined by the studio's own tilde
+     mark (the same glyph as in "jba~team", the nav paths and the marquee),
+     rendered in the brand gradient, instead of a generic bullet or comma. */
+  /* ".thanks .thanks-greet" (two classes) deliberately outweighs the ".card p"
+     rule (class + element) that would otherwise force this back to body size.
+     The two lines are built to read as two different things, not one block:
+     the greeting is a single big gradient statement joined by the studio's
+     own tilde mark (the "many languages, one team" idea); the names below
+     drift freely below it as a cloud you can click into focus. */
+  .thanks{ text-align:center; }
+  .thanks .thanks-greet{
+    display:flex; flex-wrap:wrap; align-items:baseline; justify-content:center;
+    row-gap:.18em; column-gap:.42em;
+    font-family:var(--font-display);
+    font-weight:600;
+    letter-spacing:-.02em;
+    color:var(--ink);
+    margin:0;
+    font-size:clamp(30px,4.8vw,46px);
+    line-height:1.18;
+  }
+  .thanks .sep{
+    font-weight:700;
+    background:var(--grad);
+    -webkit-background-clip:text; background-clip:text;
+    color:transparent;
+  }
+
+  /* names drift freely in a cloud. Without JS (or with reduced motion) this
+     stays a plain centred wrap, so the names are always readable. */
+  .thanks-cloud{
+    display:flex; flex-wrap:wrap; justify-content:center;
+    gap:4px 8px;
+    margin:clamp(20px,3.5vh,34px) auto 0;
+  }
+  .thanks-cloud.is-cloud{ display:block; position:relative; }
+  .thanks-cloud .name{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(16px,2.1vw,22px);
+    letter-spacing:-.01em;
+    color:var(--ink-soft);
+    background:none;
+    border:0;
+    padding:5px 9px;
+    border-radius:100px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:color .28s, opacity .28s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .thanks-cloud.is-cloud .name{
+    position:absolute; top:0; left:0;
+    will-change:transform;
+  }
+  .thanks-cloud .name-in{ display:inline-block; will-change:transform; }
+  /* only the no-JS / reduced-motion path needs a CSS transition; when GSAP
+     drives the cloud it owns the transform and a transition would fight it */
+  .thanks-cloud:not(.is-cloud) .name-in{ transition:transform .35s ease; }
+  .thanks-cloud .name:hover{ color:var(--ink); }
+  .thanks-cloud .name:focus-visible{
+    outline:2px solid var(--violet);
+    outline-offset:2px;
+  }
+  .thanks-cloud .name.is-focused{ z-index:5; }
+  .thanks-cloud .name.is-focused .name-in{
+    background:var(--grad);
+    -webkit-background-clip:text; background-clip:text;
+    color:transparent;
+  }
+  .thanks-cloud.has-focus .name:not(.is-focused){ opacity:.22; }
+  /* screen-reader-only fallback: the two lines above are decorative/aria-hidden */
+  .sr-only{
+    position:absolute; width:1px; height:1px;
+    padding:0; margin:-1px; overflow:hidden;
+    clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+
+  /* feature bullets: same gradient dot as the changelog's version marker */
+  .feat-list{
+    list-style:none;
+    margin:0; padding:0;
+  }
+  .feat-list li{
+    position:relative;
+    padding-left:22px;
+    font-size:15.5px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  .feat-list li + li{ margin-top:12px; }
+  .feat-list li::before{
+    content:"";
+    position:absolute; left:0; top:.5em;
+    width:9px; height:9px; border-radius:50%;
+    background:var(--grad);
+    box-shadow:0 0 0 4px var(--bg);
+  }
+
+  /* ---------- changelog ---------- */
+  .log{
+    list-style:none;
+    margin:0; padding:0;
+    position:relative;
+  }
+  .log::before{
+    content:"";
+    position:absolute; left:6px; top:8px; bottom:8px;
+    width:1px;
+    background:linear-gradient(180deg, var(--violet), rgba(138,68,252,.1));
+  }
+  .log-entry{
+    position:relative;
+    padding-left:30px;
+  }
+  .log-entry + .log-entry{ margin-top:6px; }
+  .log-entry::before{
+    content:"";
+    position:absolute; left:2px; top:17px;
+    width:9px; height:9px; border-radius:50%;
+    background:var(--grad);
+    box-shadow:0 0 0 4px var(--bg);
+  }
+  /* every version is a native <details>: closed by default, toggles on click,
+     keyboard operable and fully functional without JavaScript */
+  .log-head{
+    display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+    padding:11px 0;                      /* keeps the tap target at 44px on phones */
+    cursor:pointer;
+    list-style:none;                     /* Firefox: hide the default marker */
+    border-radius:8px;
+    transition:opacity .2s;
+  }
+  .log-head::-webkit-details-marker{ display:none; }   /* Safari/Chrome */
+  .log-head:hover{ opacity:.7; }
+  .log-head:focus-visible{
+    outline:2px solid var(--violet);
+    outline-offset:3px;
+  }
+  .log-head .chev{
+    margin-left:auto;
+    width:12px; height:12px;
+    border-right:2px solid var(--ink-soft);
+    border-bottom:2px solid var(--ink-soft);
+    transform:rotate(45deg) translate(-2px,-2px);
+    transition:transform .25s ease;
+    flex:0 0 auto;
+    align-self:center;
+  }
+  .log-entry details[open] .log-head .chev{
+    transform:rotate(225deg) translate(-2px,-2px);
+  }
+  .log-body{ padding:2px 0 14px; }
+  .log-head .ver{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:17px;
+    letter-spacing:-.01em;
+  }
+  .log-head .ver::before{ content:"v"; opacity:.45; font-weight:500; }
+  .log-head .date{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .log-items{
+    margin:0; padding:0 0 0 18px;
+    font-size:15px; line-height:1.65;
+    color:var(--ink);
+  }
+  .log-items li + li{ margin-top:4px; }
+  .log-items li::marker{ color:var(--violet); }
+
+  /* ---------- footer ---------- */
+  .footer{
+    margin-top:clamp(30px,6vh,50px);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--ink-soft);
+    flex-wrap:wrap;
+  }
+  .footer .domain b{ color:var(--ink); font-weight:500; }
+  .footer .legal{ display:flex; gap:10px; }
+  .footer .legal a{
+    color:var(--ink-soft);
+    text-decoration:none;
+    border:1px solid rgba(23,21,34,.1);
+    background:rgba(255,255,255,.4);
+    padding:5px 11px;
+    border-radius:100px;
+    opacity:.75;
+    transition:opacity .2s, color .2s;
+  }
+  .footer .legal a:hover{ opacity:1; color:var(--ink); }
+
+  /* ---------- skeleton (until fonts + icon are ready) ---------- */
+  .skel{
+    position:relative; overflow:hidden; display:block;
+    background:rgba(23,21,34,.07);
+    border-radius:10px;
+  }
+  .skel::after{
+    content:""; position:absolute; inset:0;
+    transform:translateX(-100%);
+    background:linear-gradient(90deg, transparent 0%, rgba(230,219,255,.95) 40%, rgba(255,220,241,.95) 60%, transparent 100%);
+    animation:shimmer 1.5s ease-in-out infinite;
+  }
+  @keyframes shimmer{ to{ transform:translateX(100%); } }
+  .hero-skel .sk-icon{ width:clamp(84px,13vw,124px); aspect-ratio:1; border-radius:26%; flex:0 0 auto; }
+  .hero-skel .sk-title{ width:min(60%,372px); height:clamp(40px,7.2vw,72px); border-radius:14px; }
+  .hero-skel .sk-meta{ width:180px; height:12px; margin-top:12px; }
+  .hero-skel .sk-actions{ display:flex; gap:16px; flex-wrap:wrap; align-items:center; margin:clamp(22px,4vh,34px) 0 clamp(30px,6vh,52px); }
+  .hero-skel .sk-badge{ width:152px; height:54px; border-radius:14px; }
+  .hero-skel .sk-chip{ width:118px; height:28px; border-radius:100px; }
+  html.is-loading .app-hero.is-real, html.is-loading .meta.is-real, html.is-loading .actions.is-real{ display:none; }
+  html:not(.is-loading) .hero-skel{ display:none; }
+
+  @media (max-width:640px){
+    .topbar{ margin-bottom:32px; }
+    .footer{ flex-direction:column; gap:12px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .scanline{ display:none; }
+    .skel::after{ animation:none; }
+    .log-head .chev{ transition:none; }
+    .thanks-cloud .name-in{ transition:none; }
+  }
+
+  /* ============ custom cursor (fine pointers only), same as homepage ============ */
+  .cursor-dot,.cursor-ring{
+    position:fixed; top:0; left:0; z-index:9999;
+    pointer-events:none; border-radius:50%;
+    transform:translate(-50%,-50%);
+    display:none;
+  }
+  .cursor-dot{ width:8px; height:8px; background:var(--grad); }
+  .cursor-ring{
+    width:34px; height:34px;
+    border:1.5px solid rgba(138,68,252,.55);
+    transition:width .25s, height .25s, border-color .25s, background .25s;
+  }
+  body.cursor-on .cursor-dot, body.cursor-on .cursor-ring{ display:block; }
+  body.cursor-on, body.cursor-on a, body.cursor-on button{ cursor:none; }
+  body.cursor-text.cursor-on p, body.cursor-text.cursor-on h1, body.cursor-text.cursor-on h2,
+  body.cursor-text.cursor-on li, body.cursor-text.cursor-on .meta, body.cursor-text.cursor-on .status,
+  body.cursor-text.cursor-on .chips span{ cursor:text; }
+  body.cursor-text .cursor-dot, body.cursor-text .cursor-ring{ opacity:0; }
+  .cursor-ring.is-hover{
+    width:56px; height:56px;
+    border-color:rgba(251,0,195,.7);
+    background:rgba(251,0,195,.06);
+  }
+</style>
+<script>
+  /* skeleton state: only with JS, and never longer than 4 s whatever happens */
+  document.documentElement.classList.add('is-loading');
+  setTimeout(function(){ document.documentElement.classList.remove('is-loading'); }, 4000);
+</script>
+</head>
+<body>
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+  <div class="scene">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="blob b4"></div>
+  </div>
+
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="index.html" aria-label="jba~team">
+        <img src="assets/jba-logo.svg" alt="">
+      </a>
+      <a class="backlink" href="index.html">&larr; back to jba-team.com</a>
+    </header>
+
+    <span class="status">Travel Tool</span>
+
+    <!-- skeleton: same silhouette as the header below, gone once fonts + icon are ready -->
+    <div class="hero-skel" id="heroSkel" aria-hidden="true">
+      <div class="app-hero"><span class="skel sk-icon"></span><span class="skel sk-title"></span></div>
+      <span class="skel sk-meta"></span>
+      <div class="sk-actions"><span class="skel sk-badge"></span><span class="skel sk-chip"></span><span class="skel sk-chip"></span><span class="skel sk-chip"></span></div>
+    </div>
+
+    <div class="app-hero is-real">
+      <div class="app-icon" id="appIcon">
+        <img src="assets/scanconvert-logo.svg" alt="ScanConvert app icon">
+      </div>
+      <div class="title-wrap">
+        <h1 class="app-title" id="appTitle" aria-label="ScanConvert">
+          <span class="word"><span class="t t-name"  id="tName">ScanConvert</span></span>
+          <span class="word" aria-hidden="true"><span class="t t-store" id="tStore">Now on PlayStore!</span></span>
+        </h1>
+        <div class="scanline" id="scanline" aria-hidden="true"></div>
+      </div>
+    </div>
+    <p class="meta is-real">Android &middot; Travel Tool</p>
+
+    <div class="actions is-real">
+      <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.jbateam.scanconvert"
+         target="_blank" rel="noopener" aria-label="Get it on Google Play">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 3.5v17c0 .6.65 1 1.17.68l14.4-8.5a.8.8 0 0 0 0-1.36L5.17 2.82A.79.79 0 0 0 4 3.5Z" fill="#fff" opacity=".92"/>
+          <path d="M4.4 2.9 14.2 12 4.4 21.1" stroke="#171522" stroke-width=".8" opacity=".45"/>
+        </svg>
+        <span class="lines"><small>get it on</small><b>Google Play</b></span>
+      </a>
+      <div class="chips" aria-hidden="true">
+        <span>Live camera scan</span>
+        <span>166 currencies</span>
+        <span>Works offline</span>
+      </div>
+    </div>
+
+    <!-- ============ info (copy to follow) ============
+         No panel here, just copy on the page background.
+         When the text arrives: replace each .placeholder with <p> paragraphs. -->
+    <section class="card plain" id="about">
+      <h2>About</h2>
+      <span class="sec-date">August 30, 2026</span>
+      <p>ScanConvert is finally here to make your travels a whole lot easier! After closed testing, we have hit the Play Store with our first app. Check it out and give us feedback!</p>
+      <p>Our mission is to make going abroad even better. ScanConvert is something we have always wished for when having to search for currency conversions in other countries online. No internet connection? Never a problem again. And don't worry, iOS users - help is near!</p>
+    </section>
+
+    <section class="card plain" id="features">
+      <h2>Features</h2>
+      <ul class="feat-list">
+        <li>Scan prices and get the conversion in the currency of your choice!</li>
+        <li>Currency of choice? We have virtually any currency!</li>
+        <li>Internet connection lost? No problem - the last rate we fetched is saved!</li>
+        <li>Scanner fails (rare occasion)? First, take a screenshot and send it to us. Second, just enter it manually using the keyboard icon at the bottom right!</li>
+        <li>Planned your whole trip in your home currency? You might lose track of your spending in a foreign currency. ScanConvert has lists where you can set a budget in your home currency and add your scans on your trip - showing you how much you have spent in YOUR money!</li>
+      </ul>
+    </section>
+
+    <!-- ============ thank you ============ -->
+    <section class="card plain thanks" id="thanks">
+      <h2>To our testers</h2>
+      <p class="thanks-greet" aria-hidden="true">
+        <span>Thank you</span><span class="sep">~</span><span>Danke</span><span class="sep">~</span><span>Gracias</span><span class="sep">~</span><span>Спасибо</span><span class="sep">~</span><span>Благодаря</span>
+      </p>
+      <p class="sr-only">Thank you, Danke, Gracias, Спасибо, Благодаря.</p>
+      <!-- Real buttons, so the names are reachable by keyboard too, not just
+           by mouse. aria-pressed carries the "in focus" state. -->
+      <div class="thanks-cloud" id="thanksCloud">
+        <button class="name" type="button" aria-pressed="false"><span class="name-in">Bianka</span></button>
+        <button class="name" type="button" aria-pressed="false"><span class="name-in">Alex</span></button>
+        <button class="name" type="button" aria-pressed="false"><span class="name-in">Moritz</span></button>
+        <button class="name" type="button" aria-pressed="false"><span class="name-in">Elias</span></button>
+        <button class="name" type="button" aria-pressed="false"><span class="name-in">Lennart</span></button>
+        <button class="name" type="button" aria-pressed="false"><span class="name-in">Stoyan</span></button>
+        <button class="name" type="button" aria-pressed="false"><span class="name-in">Kata</span></button>
+        <button class="name" type="button" aria-pressed="false"><span class="name-in">Luca</span></button>
+        <button class="name" type="button" aria-pressed="false"><span class="name-in">Galina</span></button>
+        <button class="name" type="button" aria-pressed="false"><span class="name-in">Nikolaj</span></button>
+        <button class="name" type="button" aria-pressed="false"><span class="name-in">Lennox</span></button>
+        <button class="name" type="button" aria-pressed="false"><span class="name-in">Milena</span></button>
+        <button class="name" type="button" aria-pressed="false"><span class="name-in">Gio</span></button>
+        <button class="name" type="button" aria-pressed="false"><span class="name-in">Veitti</span></button>
+      </div>
+    </section>
+
+    <!-- ============ changelog ============ -->
+    <section class="card" id="changelog">
+      <h2>Changelog</h2>
+      <ol class="log">
+        <!-- Newest first. Every entry is collapsed until clicked. Template:
+        <li class="log-entry">
+          <details>
+            <summary class="log-head">
+              <span class="ver">1.0.1</span><span class="date">2026-09-01</span>
+              <span class="chev" aria-hidden="true"></span>
+            </summary>
+            <div class="log-body">
+              <ul class="log-items">
+                <li>...</li>
+              </ul>
+            </div>
+          </details>
+        </li>
+        -->
+        <li class="log-entry">
+          <details>
+            <summary class="log-head">
+              <span class="ver">1.3.1</span><span class="date">2026-09-10</span>
+              <span class="chev" aria-hidden="true"></span>
+            </summary>
+            <div class="log-body">
+              <ul class="log-items">
+                <li>Custom currencies displayed the wrong emoji after being created. This has been fixed.</li>
+              </ul>
+            </div>
+          </details>
+        </li>
+        <li class="log-entry">
+          <details>
+            <summary class="log-head">
+              <span class="ver">1.3.0</span><span class="date">2026-09-08</span>
+              <span class="chev" aria-hidden="true"></span>
+            </summary>
+            <div class="log-body">
+              <ul class="log-items">
+                <li>PDF exports are now available in English, Spanish and French. Other languages currently export in English.</li>
+              </ul>
+            </div>
+          </details>
+        </li>
+        <li class="log-entry">
+          <details>
+            <summary class="log-head">
+              <span class="ver">1.2.0</span><span class="date">2026-09-07</span>
+              <span class="chev" aria-hidden="true"></span>
+            </summary>
+            <div class="log-body">
+              <ul class="log-items">
+                <li>Ad policy updates.</li>
+              </ul>
+            </div>
+          </details>
+        </li>
+        <li class="log-entry">
+          <details>
+            <summary class="log-head">
+              <span class="ver">1.1.1</span><span class="date">2026-09-05</span>
+              <span class="chev" aria-hidden="true"></span>
+            </summary>
+            <div class="log-body">
+              <ul class="log-items">
+                <li>Important hotfix: fixed an error where the app wouldn't start.</li>
+              </ul>
+            </div>
+          </details>
+        </li>
+        <li class="log-entry">
+          <details>
+            <summary class="log-head">
+              <span class="ver">1.1.0</span><span class="date">2026-09-05</span>
+              <span class="chev" aria-hidden="true"></span>
+            </summary>
+            <div class="log-body">
+              <ul class="log-items">
+                <li>Ad updates.</li>
+                <li>UI fix when opening keyboard entry.</li>
+                <li>R8 performance upgrade.</li>
+              </ul>
+            </div>
+          </details>
+        </li>
+        <li class="log-entry">
+          <details>
+            <summary class="log-head">
+              <span class="ver">1.0.1</span><span class="date">2026-09-03</span>
+              <span class="chev" aria-hidden="true"></span>
+            </summary>
+            <div class="log-body">
+              <ul class="log-items">
+                <li>Minor bug fixes regarding language support.</li>
+                <li>Minor ad fixes.</li>
+              </ul>
+            </div>
+          </details>
+        </li>
+        <li class="log-entry">
+          <details>
+            <summary class="log-head">
+              <span class="ver">1.0.0</span><span class="date">2026-08-30</span>
+              <span class="chev" aria-hidden="true"></span>
+            </summary>
+            <div class="log-body">
+              <ul class="log-items">
+                <li>Scan prices and get the conversion in the currency of your choice!</li>
+                <li>Currency of choice? We have virtually any currency!</li>
+                <li>Internet connection lost? No problem - the last rate we fetched is saved!</li>
+                <li>Scanner fails (rare occasion)? First, take a screenshot and send it to us. Second, just enter it manually using the keyboard icon at the bottom right!</li>
+                <li>Planned your whole trip in your home currency? You might lose track of your spending in a foreign currency. ScanConvert has lists where you can set a budget in your home currency and add your scans on your trip - showing you how much you have spent in YOUR money!</li>
+                <li>Saves your last-used currencies!</li>
+                <li>Language support for English, Spanish, French, German, Arabic, Japanese and Portuguese!</li>
+              </ul>
+            </div>
+          </details>
+        </li>
+      </ol>
+    </section>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MobileApplication",
+      "name": "ScanConvert - Travel Tool",
+      "url": "https://jba-team.com/scanconvert",
+      "operatingSystem": "Android",
+      "applicationCategory": "TravelApplication",
+      "installUrl": "https://play.google.com/store/apps/details?id=com.jbateam.scanconvert",
+      "image": "https://jba-team.com/assets/scanconvert-logo.svg",
+      "description": "Point your camera at any price and instantly see what it costs in your money. Recognition runs on-device across 166 currencies and keeps working offline.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+      "author": { "@type": "Organization", "name": "jba~team", "url": "https://jba-team.com/" }
+    }
+    </script>
+
+    <footer class="footer">
+      <span class="domain"><b>jba-team.com</b></span>
+      <span class="legal">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Use</a>
+      </span>
+    </footer>
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const tName  = document.getElementById('tName');
+  const tStore = document.getElementById('tStore');
+  const scan   = document.getElementById('scanline');
+
+  /* ---- equal widths: scale the longer phrase so both render the same width ---- */
+  function fitTitle(){
+    tStore.style.fontSize = '';
+    const wName = tName.getBoundingClientRect().width;
+    if (!wName) return;
+    /* two passes: letter-spacing/hinting make width slightly non-linear in font-size */
+    for (let i = 0; i < 2; i++){
+      const wStore = tStore.getBoundingClientRect().width;
+      if (!wStore) return;
+      const size = parseFloat(getComputedStyle(tStore).fontSize);
+      tStore.style.fontSize = (size * wName / wStore).toFixed(2) + 'px';
+    }
+  }
+  /* skeleton -> real header once fonts + icon are ready (capped at 2.5 s) */
+  const fonts = document.fonts ? document.fonts.ready : Promise.resolve();
+  const icon = document.querySelector('.app-icon img');
+  const iconReady = icon.complete ? Promise.resolve() :
+    new Promise(r => { icon.onload = icon.onerror = r; });
+  Promise.race([Promise.all([fonts, iconReady]), new Promise(r => setTimeout(r, 2500))]).then(() => {
+    document.documentElement.classList.remove('is-loading');
+    document.getElementById('heroSkel')?.remove();
+    fitTitle();
+  });
+  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(fitTitle, 120); });
+
+  if (reduce || !window.gsap){
+    /* static: only "ScanConvert" visible */
+    tStore.style.visibility = 'hidden';
+    return;
+  }
+
+  /* ---- every 2.5 s: one scan sweep over the icon, and the title flips ---- */
+  /* OFF = 150 %: far enough that descenders are fully outside the clip box */
+  const PERIOD = 2.5, SWEEP = .9, FLIP = .55, OFF = 150;
+  gsap.set(tStore, { yPercent:OFF });
+  let showingStore = false;
+
+  function flip(){
+    const out = showingStore ? tStore : tName;
+    const inn = showingStore ? tName  : tStore;
+    showingStore = !showingStore;
+    gsap.to(out,  { yPercent:-OFF, duration:FLIP, ease:'power3.in' });
+    gsap.fromTo(inn, { yPercent:OFF }, { yPercent:0, duration:FLIP, ease:'power3.out', delay:FLIP * .55 });
+  }
+
+  const tl = gsap.timeline({ repeat:-1, repeatDelay: PERIOD - SWEEP });
+  tl.set(scan, { top:'0%' })
+    .to(scan, { opacity:.85, duration:.15 }, 0)
+    .to(scan, { top:'100%', duration:SWEEP, ease:'sine.inOut' }, 0)
+    .to(scan, { opacity:0, duration:.2 }, SWEEP - .2)
+    .call(flip, null, SWEEP * .45);
+})();
+
+/* ---------- drifting tester names ----------
+   The names float in a loose cloud; clicking one pulls it into focus and
+   scales it up while the rest step back. Drift runs on the button, the focus
+   scale on the inner span, so the two never fight over the same transform. */
+(function(){
+  const cloud = document.getElementById('thanksCloud');
+  if (!cloud) return;
+  const names = Array.prototype.slice.call(cloud.querySelectorAll('.name'));
+  if (!names.length) return;
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const FOCUS_SCALE = 1.75;
+
+  /* deterministic pseudo-random: the cloud looks scattered but lands the same
+     way on every load and every resize */
+  function rnd(i){
+    const x = Math.sin(i * 127.1 + 311.7) * 43758.5453;
+    return x - Math.floor(x);
+  }
+
+  let drifts = [];
+
+  function layout(){
+    const w = cloud.clientWidth;
+    if (!w) return;
+    const cols = w < 430 ? 2 : w < 700 ? 3 : 4;
+    const rows = Math.ceil(names.length / cols);
+    const cellW = w / cols;
+    const cellH = w < 430 ? 54 : 64;
+    cloud.style.height = (rows * cellH) + 'px';
+
+    names.forEach(function(n, i){
+      const r = Math.floor(i / cols);
+      const c = i % cols;
+      /* centre a short last row rather than letting it hug the left edge */
+      const inRow = Math.min(cols, names.length - r * cols);
+      const rowOffset = (cols - inRow) * cellW / 2;
+      const nw = n.offsetWidth, nh = n.offsetHeight;
+      const jx = (rnd(i * 2 + 1) - .5) * cellW * .26;
+      const jy = (rnd(i * 2 + 2) - .5) * cellH * .42;
+
+      let left = rowOffset + c * cellW + cellW / 2 - nw / 2 + jx;
+      /* keep room for the focused size so nothing spills past the edge */
+      const grow = nw * (FOCUS_SCALE - 1) / 2;
+      const min = grow, max = w - nw - grow;
+      left = max > min ? Math.min(Math.max(left, min), max) : (w - nw) / 2;
+
+      n.style.left = Math.round(left) + 'px';
+      n.style.top  = Math.round(r * cellH + (cellH - nh) / 2 + jy) + 'px';
+    });
+  }
+
+  function startDrift(){
+    drifts.forEach(function(t){ t.kill(); });
+    drifts = names.map(function(n, i){
+      return gsap.to(n, {
+        x: (rnd(i * 3 + 5) - .5) * 22,
+        y: (rnd(i * 3 + 6) - .5) * 18,
+        rotation: (rnd(i * 3 + 7) - .5) * 5,
+        duration: 3 + rnd(i * 3 + 8) * 2.8,
+        delay: rnd(i * 3 + 9) * 1.4,
+        yoyo: true, repeat: -1, ease: 'sine.inOut'
+      });
+    });
+  }
+
+  let focused = null;
+  function setScale(n, value){
+    const inner = n.querySelector('.name-in');
+    if (window.gsap && !reduce){
+      gsap.to(inner, { scale:value, duration: value > 1 ? .55 : .4,
+                       ease: value > 1 ? 'back.out(1.6)' : 'power3.out' });
+    } else {
+      inner.style.transform = value === 1 ? '' : 'scale(' + value + ')';
+    }
+  }
+  function release(){
+    if (!focused) return;
+    setScale(focused, 1);
+    focused.classList.remove('is-focused');
+    focused.setAttribute('aria-pressed', 'false');
+    focused = null;
+    cloud.classList.remove('has-focus');
+  }
+  function focusOn(n){
+    if (focused === n){ release(); return; }
+    release();
+    focused = n;
+    cloud.classList.add('has-focus');
+    n.classList.add('is-focused');
+    n.setAttribute('aria-pressed', 'true');
+    setScale(n, FOCUS_SCALE);
+  }
+
+  names.forEach(function(n){
+    n.addEventListener('click', function(e){ e.stopPropagation(); focusOn(n); });
+  });
+  document.addEventListener('click', release);
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') release(); });
+
+  /* the floating layout needs GSAP and measured text widths */
+  if (window.gsap && !reduce){
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(function(){
+      cloud.classList.add('is-cloud');
+      layout();
+      startDrift();
+    });
+    let rt;
+    addEventListener('resize', function(){
+      clearTimeout(rt);
+      rt = setTimeout(layout, 160);
+    });
+  }
+})();
+
+/* custom cursor (fine pointers, motion ok) - same behaviour as the homepage */
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!matchMedia('(pointer:fine)').matches || reduce || !window.gsap) return;
+  document.body.classList.add('cursor-on');
+  const dot = document.querySelector('.cursor-dot');
+  const ring = document.querySelector('.cursor-ring');
+  const setDotX = gsap.quickTo(dot, 'x', { duration:.08 });
+  const setDotY = gsap.quickTo(dot, 'y', { duration:.08 });
+  const setRingX = gsap.quickTo(ring, 'x', { duration:.35, ease:'power3' });
+  const setRingY = gsap.quickTo(ring, 'y', { duration:.35, ease:'power3' });
+  const TEXT_SEL = 'p, h1, h2, li, .meta, .status, .chips span';
+  window.addEventListener('pointermove', e => {
+    setDotX(e.clientX); setDotY(e.clientY);
+    setRingX(e.clientX); setRingY(e.clientY);
+  });
+  window.addEventListener('pointerdown', e => {
+    const onText = e.target.closest &&
+      e.target.closest(TEXT_SEL) && !e.target.closest('a, button');
+    if (onText) document.body.classList.add('cursor-text');
+  });
+  window.addEventListener('pointerup', () => document.body.classList.remove('cursor-text'));
+  document.querySelectorAll('a, button').forEach(t => {
+    t.addEventListener('pointerenter', () => ring.classList.add('is-hover'));
+    t.addEventListener('pointerleave', () => ring.classList.remove('is-hover'));
+  });
+})();
+</script>
+</body>
+</html>

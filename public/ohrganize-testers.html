@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>oHRganize Tester Access - jba~team</title>
+<meta name="description" content="Private download area for invited oHRganize beta testers.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#F7F5FB">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts.css">
+<style>
+  :root{
+    /* brand spectrum pulled from the logo */
+    --blue:#3300F3;
+    --violet:#8A44FC;
+    --magenta:#FB00C3;
+    --pink:#FF81D8;
+
+    /* pastel tints of the same hues */
+    --pastel-blue:#D7DEFF;
+    --pastel-violet:#E6DBFF;
+    --pastel-pink:#FFDCF1;
+    --pastel-peach:#FFE7E0;
+
+    --ink:#171522;
+    --ink-soft:#5b5570;
+    --bg:#F7F5FB;
+
+    --ohrganize-blue:#0864c6;
+
+    --grad: linear-gradient(100deg, var(--blue) 0%, var(--violet) 38%, var(--magenta) 72%, var(--pink) 100%);
+
+    --font-display:"Space Grotesk", system-ui, sans-serif;
+    --font-body:"Plus Jakarta Sans", system-ui, sans-serif;
+    --font-mono:"JetBrains Mono", ui-monospace, monospace;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--ink);
+    background:var(--bg);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- soft pastel blob field ---------- */
+  .scene{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:0;
+    pointer-events:none;
+  }
+  .blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(46px);
+    opacity:.6;
+    mix-blend-mode:multiply;
+  }
+  .b1{ width:54vw; height:54vw; left:-14vw; top:-16vw;
+       background:radial-gradient(circle at 35% 35%, var(--pastel-violet), transparent 70%); }
+  .b2{ width:46vw; height:46vw; right:-12vw; top:-10vw;
+       background:radial-gradient(circle at 60% 40%, var(--pastel-pink), transparent 70%); }
+  .b3{ width:50vw; height:50vw; left:-8vw; bottom:-20vw;
+       background:radial-gradient(circle at 50% 50%, var(--pastel-blue), transparent 70%); }
+  .b4{ width:42vw; height:42vw; right:-10vw; bottom:-18vw;
+       background:radial-gradient(circle at 40% 60%, var(--pastel-peach), transparent 70%); }
+
+  /* ---------- layout ---------- */
+  .wrap{
+    position:relative;
+    z-index:2;
+    max-width:860px;
+    margin:0 auto;
+    padding:clamp(22px,4vh,46px) clamp(22px,5vw,64px) clamp(40px,8vh,80px);
+  }
+
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:clamp(36px,7vh,64px);
+  }
+  .brand img{ height:44px; width:auto; display:block; }
+  .backlink{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:.02em;
+    color:var(--ink-soft);
+    text-decoration:none;
+    border:1px solid rgba(23,21,34,.12);
+    background:rgba(255,255,255,.55);
+    backdrop-filter:blur(6px);
+    padding:7px 13px;
+    border-radius:100px;
+    transition:color .2s, border-color .2s;
+  }
+  .backlink:hover{ color:var(--ink); border-color:rgba(23,21,34,.3); }
+
+  .status{
+    font-family:var(--font-mono);
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.22em;
+    color:var(--violet);
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .status::before{
+    content:"";
+    width:34px;height:1px;
+    background:linear-gradient(90deg,transparent,var(--violet));
+  }
+  .status::after{
+    content:"";
+    width:34px;height:1px;
+    background:linear-gradient(90deg,var(--violet),transparent);
+  }
+
+  h1{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(34px,6vw,56px);
+    line-height:1.05;
+    letter-spacing:-.03em;
+    margin:14px 0 6px;
+  }
+  h1 .bracket{
+    color:transparent;
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    font-weight:500;
+  }
+  .meta{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-bottom:clamp(28px,5vh,48px);
+  }
+
+  .card{
+    background:rgba(255,255,255,.72);
+    border:1px solid rgba(23,21,34,.08);
+    backdrop-filter:blur(8px);
+    border-radius:22px;
+    padding:clamp(24px,4vw,44px);
+    box-shadow:0 10px 30px -18px rgba(74,32,140,.35);
+  }
+  .card h2{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(19px,2.4vw,23px);
+    letter-spacing:-.01em;
+    margin:0 0 10px;
+  }
+  .card h2::before{
+    content:"~ ";
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .card p{
+    font-size:15.5px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  .card .soft{ color:var(--ink-soft); }
+  .card a{ color:var(--violet); text-decoration:none; border-bottom:1px solid rgba(138,68,252,.3); }
+  .card a:hover{ border-bottom-color:var(--violet); }
+
+  /* ---------- app row ---------- */
+  .app-row{
+    display:flex; align-items:center; gap:16px;
+    margin-bottom:22px;
+  }
+  .app-row img{
+    width:64px; height:64px; border-radius:16px;
+    box-shadow:0 14px 30px -14px rgba(23,21,34,.45);
+  }
+  .app-row .app-lines{ display:flex; flex-direction:column; gap:3px; }
+  .app-row .app-lines b{
+    font-family:var(--font-display); font-weight:600; font-size:20px; letter-spacing:-.01em;
+  }
+  .app-row .app-lines small{
+    font-family:var(--font-mono); font-size:11.5px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--ink-soft);
+  }
+
+  /* ---------- login form ---------- */
+  .field{ margin-bottom:16px; }
+  .field label{
+    display:block;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:7px;
+  }
+  .field input{
+    width:100%;
+    font-family:var(--font-body);
+    font-size:15px;
+    color:var(--ink);
+    background:rgba(255,255,255,.8);
+    border:1px solid rgba(23,21,34,.14);
+    border-radius:13px;
+    padding:13px 16px;
+    outline:none;
+    transition:border-color .2s, box-shadow .2s;
+  }
+  .field input:focus{
+    border-color:var(--violet);
+    box-shadow:0 0 0 3px rgba(138,68,252,.15);
+  }
+  .form-error{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--magenta);
+    min-height:16px;
+    margin:2px 0 14px;
+  }
+  .unlock-btn{
+    display:inline-flex; align-items:center; gap:11px;
+    font-family:var(--font-mono);
+    font-size:14px;
+    font-weight:500;
+    color:#fff;
+    background:var(--ink);
+    border:none;
+    padding:14px 24px;
+    border-radius:100px;
+    cursor:pointer;
+    box-shadow:0 14px 34px -14px rgba(23,21,34,.55);
+    transition:transform .2s, box-shadow .2s, opacity .2s;
+  }
+  .unlock-btn:hover{ transform:translateY(-2px); box-shadow:0 20px 44px -16px rgba(23,21,34,.6); }
+  .unlock-btn:disabled{ opacity:.55; cursor:default; transform:none; }
+  .unlock-btn .ic{
+    width:26px; height:26px; border-radius:50%;
+    background:var(--grad);
+    display:grid; place-items:center; flex:0 0 auto;
+  }
+  .unlock-btn .ic svg{ width:13px; height:13px; }
+
+  /* ---------- busy state for actions that wait on the network ----------
+     A ring in the brand gradient, masked out in the middle. Same colour
+     language as the gradient circles used elsewhere on the site. */
+  .btn-spinner{
+    width:26px; height:26px; border-radius:50%;
+    flex:0 0 auto;
+    background:conic-gradient(from 0deg, var(--blue), var(--violet), var(--magenta), var(--pink), var(--blue));
+    -webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+            mask:radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+    animation:spin .8s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .btn-spinner,
+  .label-busy{ display:none; }
+  .is-busy .btn-spinner{ display:block; }
+  .is-busy .label-busy{ display:inline; }
+  .is-busy .ic,
+  .is-busy > svg,
+  .is-busy .label-idle{ display:none; }
+  .unlock-btn.is-busy{ cursor:progress; }
+  .dl-btn.is-busy{ cursor:progress; pointer-events:none; }
+
+  @media (prefers-reduced-motion: reduce){
+    .btn-spinner{ animation-duration:2.4s; }
+  }
+
+  /* ---------- download state ---------- */
+  .dl-zone{ display:none; }
+  .dl-zone.is-on{ display:block; }
+  .login-zone.is-off{ display:none; }
+  .dl-btn{
+    display:inline-flex; align-items:center; gap:12px;
+    padding:14px 24px 14px 18px;
+    border-radius:14px;
+    background:var(--ink);
+    color:#fff !important;
+    text-decoration:none;
+    border-bottom:none !important;
+    position:relative;
+    box-shadow:0 16px 38px -16px rgba(23,21,34,.55);
+    transition:transform .2s, box-shadow .2s;
+  }
+  .dl-btn:hover{ transform:translateY(-2px); box-shadow:0 22px 46px -18px rgba(23,21,34,.6); }
+  .dl-btn svg{ width:26px; height:26px; flex:0 0 auto; }
+  .dl-btn .lines{ display:flex; flex-direction:column; line-height:1.15; text-align:left; }
+  .dl-btn .lines small{
+    font-family:var(--font-mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; opacity:.75;
+  }
+  .dl-btn .lines b{ font-family:var(--font-display); font-size:17px; font-weight:600; letter-spacing:-.01em; }
+  .dl-btn .beta-tag{
+    position:absolute; top:-9px; right:-10px;
+    font-family:var(--font-mono); font-size:9.5px; letter-spacing:.08em;
+    color:#fff;
+    background:var(--grad);
+    padding:4px 9px; border-radius:100px;
+  }
+  .dl-meta{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--ink-soft);
+    margin-top:16px;
+  }
+  .signout{
+    background:none; border:none; padding:0;
+    font-family:var(--font-mono); font-size:11.5px;
+    color:var(--ink-soft); cursor:pointer;
+    text-decoration:underline dotted;
+  }
+  .signout:hover{ color:var(--ink); }
+
+  .footer{
+    margin-top:clamp(30px,6vh,50px);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--ink-soft);
+    flex-wrap:wrap;
+  }
+  .footer .domain b{ color:var(--ink); font-weight:500; }
+  .footer .legal{ display:flex; gap:10px; }
+  .footer .legal a{
+    color:var(--ink-soft);
+    text-decoration:none;
+    border:1px solid rgba(23,21,34,.1);
+    background:rgba(255,255,255,.4);
+    padding:5px 11px;
+    border-radius:100px;
+    opacity:.75;
+    transition:opacity .2s, color .2s;
+  }
+  .footer .legal a:hover{ opacity:1; color:var(--ink); }
+
+  /* ---------- skeleton (card content, until the session check answers) ---------- */
+  .skel{
+    position:relative; overflow:hidden; display:block;
+    background:rgba(23,21,34,.07);
+    border-radius:10px;
+  }
+  .skel::after{
+    content:""; position:absolute; inset:0;
+    transform:translateX(-100%);
+    background:linear-gradient(90deg, transparent 0%, rgba(230,219,255,.95) 40%, rgba(255,220,241,.95) 60%, transparent 100%);
+    animation:shimmer 1.5s ease-in-out infinite;
+  }
+  @keyframes shimmer{ to{ transform:translateX(100%); } }
+  .card-skel .sk-h2{ width:min(62%,300px); height:22px; margin-bottom:14px; }
+  .card-skel .sk-line{ width:100%; height:13px; margin-top:9px; }
+  .card-skel .sk-line.short{ width:72%; margin-bottom:22px; }
+  .card-skel .sk-label{ width:64px; height:11px; margin:0 0 8px; }
+  .card-skel .sk-input{ width:100%; height:48px; border-radius:13px; margin-bottom:16px; }
+  .card-skel .sk-btn{ width:196px; height:48px; border-radius:100px; margin-top:22px; }
+  html.is-loading .login-zone, html.is-loading .dl-zone{ display:none !important; }
+  html:not(.is-loading) .card-skel{ display:none; }
+  @media (prefers-reduced-motion: reduce){ .skel::after{ animation:none; } }
+
+  @media (max-width:640px){
+    .topbar{ margin-bottom:32px; }
+    .footer{ flex-direction:column; gap:12px; }
+  }
+
+  /* ============ custom cursor (fine pointers only), same as homepage ============ */
+  .cursor-dot,.cursor-ring{
+    position:fixed; top:0; left:0; z-index:9999;
+    pointer-events:none; border-radius:50%;
+    transform:translate(-50%,-50%);
+    display:none;
+  }
+  .cursor-dot{ width:8px; height:8px; background:var(--grad); }
+  .cursor-ring{
+    width:34px; height:34px;
+    border:1.5px solid rgba(138,68,252,.55);
+    transition:width .25s, height .25s, border-color .25s, background .25s;
+  }
+  body.cursor-on .cursor-dot, body.cursor-on .cursor-ring{ display:block; }
+  body.cursor-on, body.cursor-on a, body.cursor-on button{ cursor:none; }
+  body.cursor-text.cursor-on p, body.cursor-text.cursor-on h1, body.cursor-text.cursor-on h2,
+  body.cursor-text.cursor-on li, body.cursor-text.cursor-on .meta, body.cursor-text.cursor-on .status{ cursor:text; }
+  body.cursor-text .cursor-dot, body.cursor-text .cursor-ring{ opacity:0; }
+  .cursor-ring.is-hover{
+    width:56px; height:56px;
+    border-color:rgba(251,0,195,.7);
+    background:rgba(251,0,195,.06);
+  }
+</style>
+<script>
+  /* skeleton state: only with JS, and never longer than 4 s whatever happens */
+  document.documentElement.classList.add('is-loading');
+  setTimeout(function(){ document.documentElement.classList.remove('is-loading'); }, 4000);
+</script>
+</head>
+<body>
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+  <div class="scene">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="blob b4"></div>
+  </div>
+
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="index.html" aria-label="jba~team">
+        <img src="assets/jba-logo.svg" alt="">
+      </a>
+      <a class="backlink" href="index.html">&larr; back to jba-team.com</a>
+    </header>
+
+    <span class="status">Closed Beta</span>
+    <h1><span class="bracket">&lt;</span> oHRganize Testers <span class="bracket">&gt;</span></h1>
+    <p class="meta">oHRganize &middot; HR Suite for Windows &middot; private tester build</p>
+
+    <div class="card">
+      <div class="app-row">
+        <img src="assets/ohrganize-icon.png" alt="oHRganize app icon">
+        <div class="app-lines">
+          <b>oHRganize</b>
+          <small>Windows &middot; beta 1.0.0</small>
+        </div>
+      </div>
+
+      <!-- skeleton: shown while we ask the server whether a session cookie is valid -->
+      <div class="card-skel" id="cardSkel" aria-hidden="true">
+        <span class="skel sk-h2"></span>
+        <span class="skel sk-line"></span><span class="skel sk-line"></span><span class="skel sk-line short"></span>
+        <span class="skel sk-label"></span><span class="skel sk-input"></span>
+        <span class="skel sk-label"></span><span class="skel sk-input"></span>
+        <span class="skel sk-btn"></span>
+      </div>
+
+      <div class="login-zone" id="loginZone">
+        <h2>Are you a tester? Download here.</h2>
+        <p class="soft">This build is reserved for invited testers. Sign in with the tester
+        credentials you received from us. Not a tester yet, but curious?
+        <a href="mailto:management@jba-team.com">Drop us a line.</a></p>
+
+        <form id="loginForm" novalidate>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="username" required>
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" autocomplete="current-password" required>
+          </div>
+          <div class="form-error" id="formError"></div>
+          <button type="submit" class="unlock-btn" id="unlockBtn">
+            <span class="ic">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="#fff" stroke-width="2"/><path d="M8 10V7a4 4 0 0 1 8 0" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+            </span>
+            <span class="btn-spinner" aria-hidden="true"></span>
+            <span class="label-idle">unlock download</span>
+            <span class="label-busy">checking...</span>
+          </button>
+        </form>
+      </div>
+
+      <div class="dl-zone" id="dlZone">
+        <h2>Welcome back, tester.</h2>
+        <p class="soft">You are signed in. Grab the latest beta build below. Found something odd?
+        <a href="mailto:management@jba-team.com">Tell us everything.</a><br>
+        Thank you for helping us shape your oHRganize experience.</p>
+
+        <p>
+          <a class="dl-btn" id="dlBtn" href="/api/ohrganize-download" download>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 3v11m0 0 4.5-4.5M12 14 7.5 9.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span class="btn-spinner" aria-hidden="true"></span>
+            <span class="lines">
+              <small>windows installer</small>
+              <b class="label-idle">oHRganize Setup 1.0.0</b>
+              <b class="label-busy">preparing your link...</b>
+            </span>
+            <span class="beta-tag">beta</span>
+          </a>
+        </p>
+        <p class="dl-meta">oHRganize-Setup-1.0.0.exe &middot; ~94 MB &middot; Windows 10/11 &middot;
+          <button class="signout" id="signoutBtn" type="button">sign out</button>
+        </p>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <span class="domain"><b>jba-team.com</b></span>
+      <span class="legal">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Use</a>
+      </span>
+    </footer>
+  </div>
+
+<script>
+  const loginZone = document.getElementById('loginZone');
+  const dlZone    = document.getElementById('dlZone');
+  const form      = document.getElementById('loginForm');
+  const errEl     = document.getElementById('formError');
+  const btn       = document.getElementById('unlockBtn');
+
+  function showDownload(on){
+    dlZone.classList.toggle('is-on', on);
+    loginZone.classList.toggle('is-off', on);
+  }
+
+  /* already signed in? (session cookie) — the card skeleton stays until we know */
+  fetch('/api/tester-login', { method:'GET' })
+    .then(r => { if (r.ok) showDownload(true); })
+    .catch(() => {})
+    .finally(() => {
+      document.documentElement.classList.remove('is-loading');
+      document.getElementById('cardSkel')?.remove();
+    });
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    errEl.textContent = '';
+    btn.disabled = true;
+    btn.classList.add('is-busy');
+    btn.setAttribute('aria-busy', 'true');
+    try{
+      const res = await fetch('/api/tester-login', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json' },
+        body: JSON.stringify({
+          email: document.getElementById('email').value.trim(),
+          password: document.getElementById('password').value
+        })
+      });
+      if (res.ok){
+        showDownload(true);
+      } else {
+        const data = await res.json().catch(() => ({}));
+        errEl.textContent = data.error || 'wrong email or password';
+      }
+    }catch(_){
+      errEl.textContent = 'network error - please try again';
+    }finally{
+      btn.disabled = false;
+      btn.classList.remove('is-busy');
+      btn.removeAttribute('aria-busy');
+    }
+  });
+
+  /* The download leaves the page for a presigned URL, so there is no reliable
+     "finished" event. Show the busy state while the link is being signed and
+     clear it shortly after, purely so the click visibly registers. */
+  document.getElementById('dlBtn')?.addEventListener('click', function(){
+    const b = this;
+    b.classList.add('is-busy');
+    b.setAttribute('aria-busy', 'true');
+    setTimeout(function(){
+      b.classList.remove('is-busy');
+      b.removeAttribute('aria-busy');
+    }, 3500);
+  });
+
+  document.getElementById('signoutBtn')?.addEventListener('click', async () => {
+    await fetch('/api/tester-login', { method:'DELETE' }).catch(() => {});
+    showDownload(false);
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+/* custom cursor (fine pointers, motion ok) - same behaviour as the homepage */
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!matchMedia('(pointer:fine)').matches || reduce || !window.gsap) return;
+  document.body.classList.add('cursor-on');
+  const dot = document.querySelector('.cursor-dot');
+  const ring = document.querySelector('.cursor-ring');
+  const setDotX = gsap.quickTo(dot, 'x', { duration:.08 });
+  const setDotY = gsap.quickTo(dot, 'y', { duration:.08 });
+  const setRingX = gsap.quickTo(ring, 'x', { duration:.35, ease:'power3' });
+  const setRingY = gsap.quickTo(ring, 'y', { duration:.35, ease:'power3' });
+  const TEXT_SEL = 'p, h1, h2, li, .meta, .status';
+  window.addEventListener('pointermove', e => {
+    setDotX(e.clientX); setDotY(e.clientY);
+    setRingX(e.clientX); setRingY(e.clientY);
+  });
+  window.addEventListener('pointerdown', e => {
+    const onText = e.target.closest &&
+      e.target.closest(TEXT_SEL) && !e.target.closest('a, button, input, label');
+    if (onText) document.body.classList.add('cursor-text');
+  });
+  window.addEventListener('pointerup', () => document.body.classList.remove('cursor-text'));
+  document.querySelectorAll('a, button').forEach(t => {
+    t.addEventListener('pointerenter', () => ring.classList.add('is-hover'));
+    t.addEventListener('pointerleave', () => ring.classList.remove('is-hover'));
+  });
+})();
+</script>
+</body>
+</html>

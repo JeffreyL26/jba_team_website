@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Terms of Use - jba~team</title>
+<meta name="description" content="The terms that apply when you use ScanConvert by jba~team and the website jba-team.com.">
+<link rel="canonical" href="https://jba-team.com/terms">
+<meta name="theme-color" content="#F7F5FB">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="jba~team">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://jba-team.com/terms">
+<meta property="og:title" content="Terms of Use - jba~team">
+<meta property="og:description" content="The terms that apply when you use ScanConvert by jba~team and the website jba-team.com.">
+<meta property="og:image" content="https://jba-team.com/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The jba~team wordmark on a soft pastel gradient. Below it: apps · websites · games.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image:alt" content="The jba~team wordmark on a soft pastel gradient. Below it: apps · websites · games.">
+<meta name="twitter:image" content="https://jba-team.com/assets/og-image.png">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts.css">
+<style>
+  :root{
+    /* brand spectrum pulled from the logo */
+    --blue:#3300F3;
+    --violet:#8A44FC;
+    --magenta:#FB00C3;
+    --pink:#FF81D8;
+
+    /* pastel tints of the same hues */
+    --pastel-blue:#D7DEFF;
+    --pastel-violet:#E6DBFF;
+    --pastel-pink:#FFDCF1;
+    --pastel-peach:#FFE7E0;
+
+    --ink:#171522;
+    --ink-soft:#5b5570;
+    --bg:#F7F5FB;
+
+    --grad: linear-gradient(100deg, var(--blue) 0%, var(--violet) 38%, var(--magenta) 72%, var(--pink) 100%);
+
+    --font-display:"Space Grotesk", system-ui, sans-serif;
+    --font-body:"Plus Jakarta Sans", system-ui, sans-serif;
+    --font-mono:"JetBrains Mono", ui-monospace, monospace;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--ink);
+    background:var(--bg);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- soft pastel blob field ---------- */
+  .scene{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:0;
+    pointer-events:none;
+  }
+  .blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(46px);
+    opacity:.6;
+    mix-blend-mode:multiply;
+  }
+  .b1{ width:54vw; height:54vw; left:-14vw; top:-16vw;
+       background:radial-gradient(circle at 35% 35%, var(--pastel-violet), transparent 70%); }
+  .b2{ width:46vw; height:46vw; right:-12vw; top:-10vw;
+       background:radial-gradient(circle at 60% 40%, var(--pastel-pink), transparent 70%); }
+  .b3{ width:50vw; height:50vw; left:-8vw; bottom:-20vw;
+       background:radial-gradient(circle at 50% 50%, var(--pastel-blue), transparent 70%); }
+  .b4{ width:42vw; height:42vw; right:-10vw; bottom:-18vw;
+       background:radial-gradient(circle at 40% 60%, var(--pastel-peach), transparent 70%); }
+
+  /* ---------- layout ---------- */
+  .wrap{
+    position:relative;
+    z-index:2;
+    max-width:860px;
+    margin:0 auto;
+    padding:clamp(22px,4vh,46px) clamp(22px,5vw,64px) clamp(40px,8vh,80px);
+  }
+
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:clamp(36px,7vh,64px);
+  }
+  .brand img{ height:44px; width:auto; display:block; }
+  .backlink{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:.02em;
+    color:var(--ink-soft);
+    text-decoration:none;
+    border:1px solid rgba(23,21,34,.12);
+    background:rgba(255,255,255,.55);
+    backdrop-filter:blur(6px);
+    padding:7px 13px;
+    border-radius:100px;
+    transition:color .2s, border-color .2s;
+  }
+  .backlink:hover{ color:var(--ink); border-color:rgba(23,21,34,.3); }
+
+  .status{
+    font-family:var(--font-mono);
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.22em;
+    color:var(--violet);
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .status::before{
+    content:"";
+    width:34px;height:1px;
+    background:linear-gradient(90deg,transparent,var(--violet));
+  }
+  .status::after{
+    content:"";
+    width:34px;height:1px;
+    background:linear-gradient(90deg,var(--violet),transparent);
+  }
+
+  h1{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(34px,6vw,56px);
+    line-height:1.05;
+    letter-spacing:-.03em;
+    margin:14px 0 6px;
+  }
+  h1 .bracket{
+    color:transparent;
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    font-weight:500;
+  }
+  .meta{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-bottom:clamp(28px,5vh,48px);
+  }
+
+  .card{
+    background:rgba(255,255,255,.72);
+    border:1px solid rgba(23,21,34,.08);
+    backdrop-filter:blur(8px);
+    border-radius:22px;
+    padding:clamp(24px,4vw,44px);
+    box-shadow:0 10px 30px -18px rgba(74,32,140,.35);
+  }
+
+  .card h2{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(19px,2.4vw,23px);
+    letter-spacing:-.01em;
+    margin:34px 0 10px;
+  }
+  .card h2:first-child{ margin-top:0; }
+  .card h2::before{
+    content:"~ ";
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .card p, .card li{
+    font-size:15.5px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  .card ul{ padding-left:22px; }
+  .card li{ margin-bottom:6px; }
+  .card a{ color:var(--violet); text-decoration:none; border-bottom:1px solid rgba(138,68,252,.3); }
+  .card a:hover{ border-bottom-color:var(--violet); }
+  .card .soft{ color:var(--ink-soft); }
+
+  .footer{
+    margin-top:clamp(30px,6vh,50px);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--ink-soft);
+    flex-wrap:wrap;
+  }
+  .footer .domain b{ color:var(--ink); font-weight:500; }
+  .footer .legal{ display:flex; gap:10px; }
+  .footer .legal a{
+    color:var(--ink-soft);
+    text-decoration:none;
+    border:1px solid rgba(23,21,34,.1);
+    background:rgba(255,255,255,.4);
+    padding:5px 11px;
+    border-radius:100px;
+    opacity:.75;
+    transition:opacity .2s, color .2s;
+  }
+  .footer .legal a:hover{ opacity:1; color:var(--ink); }
+
+  @media (max-width:640px){
+    .topbar{ margin-bottom:32px; }
+    .footer{ flex-direction:column; gap:12px; }
+  }
+
+  /* ============ custom cursor (fine pointers only), same as homepage ============ */
+  .cursor-dot,.cursor-ring{
+    position:fixed; top:0; left:0; z-index:9999;
+    pointer-events:none; border-radius:50%;
+    transform:translate(-50%,-50%);
+    display:none;
+  }
+  .cursor-dot{ width:8px; height:8px; background:var(--grad); }
+  .cursor-ring{
+    width:34px; height:34px;
+    border:1.5px solid rgba(138,68,252,.55);
+    transition:width .25s, height .25s, border-color .25s, background .25s;
+  }
+  body.cursor-on .cursor-dot, body.cursor-on .cursor-ring{ display:block; }
+  body.cursor-on, body.cursor-on a, body.cursor-on button{ cursor:none; }
+  body.cursor-text.cursor-on p, body.cursor-text.cursor-on h1, body.cursor-text.cursor-on h2,
+  body.cursor-text.cursor-on li, body.cursor-text.cursor-on .meta, body.cursor-text.cursor-on .status{ cursor:text; }
+  body.cursor-text .cursor-dot, body.cursor-text .cursor-ring{ opacity:0; }
+  .cursor-ring.is-hover{
+    width:56px; height:56px;
+    border-color:rgba(251,0,195,.7);
+    background:rgba(251,0,195,.06);
+  }
+</style>
+</head>
+<body>
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+  <div class="scene">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="blob b4"></div>
+  </div>
+
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="index.html" aria-label="jba~team">
+        <img src="assets/jba-logo.svg" alt="">
+      </a>
+      <a class="backlink" href="index.html">&larr; back to jba-team.com</a>
+    </header>
+
+    <span class="status">Legal</span>
+    <h1><span class="bracket">&lt;</span> Terms of Use <span class="bracket">&gt;</span></h1>
+    <p class="meta">ScanConvert - Travel Tool &middot; Last updated: July 13, 2026</p>
+
+    <div class="card">
+      <h2>1. Scope</h2>
+      <p>These Terms of Use (&ldquo;Terms&rdquo;) govern your use of the Android app <b>ScanConvert - Travel Tool</b> (the &ldquo;App&rdquo;), provided by <b>jba~team</b>, Germany (&ldquo;we&rdquo;, &ldquo;us&rdquo;). By downloading or using the App you agree to these Terms. If you do not agree, please do not use the App.</p>
+      <p>In addition, the terms of the distribution platform (Google Play) apply to the download and any purchases.</p>
+
+      <h2>2. What the App does</h2>
+      <p>The App recognizes prices through your device camera and converts them into another currency using exchange rates from a third-party service. Converted amounts can be collected in travel budget lists with an optional budget. Text recognition runs on your device; see our <a href="privacy.html">Privacy Policy</a> for details on data handling.</p>
+
+      <h2>3. Exchange rates: no guarantee, no advice</h2>
+      <p>Exchange rates shown in the App are obtained from a third-party provider and are for <b>informational purposes only</b>. They may deviate from the rates actually applied by banks, card issuers, or exchange offices, and they may be delayed, cached, or temporarily unavailable (offline mode uses the last cached rates).</p>
+      <ul>
+        <li>The App does not provide financial, investment, or tax advice.</li>
+        <li>Recognized amounts may be inaccurate (for example due to lighting, fonts, or camera quality). Always verify important amounts yourself.</li>
+        <li>Do not rely on the App for transactions where an exact rate matters.</li>
+      </ul>
+
+      <h2>4. Free version and advertising</h2>
+      <p>The free version of the App is ad-supported and includes certain limits (for example a maximum number of lists). Ads are served by Google AdMob; where required, ads are only shown in accordance with your consent choices. See the <a href="privacy.html">Privacy Policy</a> for details.</p>
+
+      <h2>5. Premium features and purchases</h2>
+      <p>Optional premium features (such as ad-free use, unlimited lists, list export, or a time-limited &ldquo;Vacation Pass&rdquo;) can be unlocked via in-app purchase through Google Play Billing. Prices are shown in Google Play before purchase.</p>
+      <ul>
+        <li>One-time purchases unlock the respective feature permanently on your Google account.</li>
+        <li>The Vacation Pass unlocks premium features for the period stated at purchase (for example 7 days) and expires automatically; it does not renew.</li>
+        <li>Purchases can be restored on a new device via &ldquo;Restore purchases&rdquo; with the same Google account.</li>
+        <li>Refunds are handled according to Google Play's refund policies and applicable statutory rights.</li>
+      </ul>
+
+      <h2>6. License</h2>
+      <p>We grant you a personal, non-exclusive, non-transferable license to install and use the App on Android devices that you own or control, for private, non-commercial purposes. You may not copy, modify, distribute, sell, reverse-engineer, or decompile the App or parts of it, except where permitted by mandatory law.</p>
+
+      <h2>7. Acceptable use</h2>
+      <p>You agree not to misuse the App, in particular not to:</p>
+      <ul>
+        <li>use the App in violation of applicable laws or third-party rights (for example when photographing/scanning in places where this is prohibited),</li>
+        <li>interfere with or disrupt the App, its security features, or connected third-party services,</li>
+        <li>circumvent technical limitations, the ad delivery, or the purchase mechanism.</li>
+      </ul>
+
+      <h2>8. Third-party services</h2>
+      <p>The App relies on third-party services, including Google Play services, Google AdMob, Google ML Kit, and an exchange-rate provider (ExchangeRate-API / open.er-api.com). We are not responsible for the availability or content of these services. Their own terms and privacy policies apply where applicable.</p>
+
+      <h2>9. Availability and changes</h2>
+      <p>We provide the App free of charge in its basic version and do not guarantee uninterrupted availability of the App or of live exchange rates. We may modify, extend, or discontinue features of the App, and we may update these Terms when features or legal requirements change. The current version of these Terms is always available on this page.</p>
+
+      <h2>10. Warranty and liability</h2>
+      <p>For the free version, statutory warranty rules for gratuitous services apply. For paid features, statutory warranty rights remain unaffected.</p>
+      <p>We are liable without limitation for intent and gross negligence, and for injury to life, body, or health. In cases of slight negligence we are liable only for the breach of essential contractual obligations (obligations whose fulfilment makes the proper performance of the contract possible in the first place and on whose fulfilment you may regularly rely), limited to the foreseeable damage typical for this type of contract. Liability under mandatory law (for example product liability) remains unaffected.</p>
+      <p class="soft">In particular, we are not liable for losses resulting from reliance on displayed exchange rates or recognized amounts (see section 3).</p>
+
+      <h2>11. Termination</h2>
+      <p>You may stop using the App at any time by uninstalling it. We may terminate the license if you materially breach these Terms. Sections that by their nature should survive (in particular sections 3, 10, and 12) survive termination.</p>
+
+      <h2>12. Governing law and final provisions</h2>
+      <p>These Terms are governed by the laws of the Federal Republic of Germany, excluding the UN Convention on Contracts for the International Sale of Goods. If you are a consumer, the mandatory consumer protection rules of your country of habitual residence remain unaffected. Should individual provisions of these Terms be invalid, the remaining provisions remain in effect.</p>
+      <p class="soft">The European Commission provides a platform for online dispute resolution: <a href="https://ec.europa.eu/consumers/odr" rel="noopener">ec.europa.eu/consumers/odr</a>. We are neither obliged nor willing to participate in dispute resolution proceedings before a consumer arbitration board.</p>
+
+      <h2>13. Contact</h2>
+      <p>Questions about these Terms? Contact us at <a href="mailto:management@jba-team.com">management@jba-team.com</a>.</p>
+    </div>
+
+    <footer class="footer">
+      <span class="domain"><b>jba-team.com</b></span>
+      <span class="legal">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Use</a>
+      </span>
+    </footer>
+  </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+/* custom cursor (fine pointers, motion ok) - same behaviour as the homepage */
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!matchMedia('(pointer:fine)').matches || reduce || !window.gsap) return;
+  document.body.classList.add('cursor-on');
+  const dot = document.querySelector('.cursor-dot');
+  const ring = document.querySelector('.cursor-ring');
+  const setDotX = gsap.quickTo(dot, 'x', { duration:.08 });
+  const setDotY = gsap.quickTo(dot, 'y', { duration:.08 });
+  const setRingX = gsap.quickTo(ring, 'x', { duration:.35, ease:'power3' });
+  const setRingY = gsap.quickTo(ring, 'y', { duration:.35, ease:'power3' });
+  const TEXT_SEL = 'p, h1, h2, li, .meta, .status';
+  window.addEventListener('pointermove', e => {
+    setDotX(e.clientX); setDotY(e.clientY);
+    setRingX(e.clientX); setRingY(e.clientY);
+  });
+  window.addEventListener('pointerdown', e => {
+    const onText = e.target.closest &&
+      e.target.closest(TEXT_SEL) && !e.target.closest('a, button, input, label');
+    if (onText) document.body.classList.add('cursor-text');
+  });
+  window.addEventListener('pointerup', () => document.body.classList.remove('cursor-text'));
+  document.querySelectorAll('a, button').forEach(t => {
+    t.addEventListener('pointerenter', () => ring.classList.add('is-hover'));
+    t.addEventListener('pointerleave', () => ring.classList.remove('is-hover'));
+  });
+})();
+</script>
+</body>
+</html>

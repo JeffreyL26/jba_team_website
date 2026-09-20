@@ -1,0 +1,11 @@
+# Lokaler Wrangler-Cache und Miniflare-Zustand (enthaelt Account-Daten und R2-Testdaten)
+.wrangler/
+
+# Lokale Secrets fuer wrangler pages dev
+.dev.vars
+
+# Abhaengigkeiten, falls spaeter welche dazukommen
+node_modules/
+
+# Claude-Code-Vorschaukonfiguration mit maschinenspezifischem Pfad
+.claude/

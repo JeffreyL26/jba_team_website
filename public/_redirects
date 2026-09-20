@@ -1,0 +1,4 @@
+# The tester page was renamed HRMONIC -> oHRganize on 2026-09-07.
+# Testers may still hold the old bookmark, so keep the old paths working.
+/hrmonic-testers.html /ohrganize-testers 301
+/hrmonic-testers /ohrganize-testers 301

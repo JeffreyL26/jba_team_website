@@ -1,0 +1,10 @@
+name = "jba-team"
+compatibility_date = "2026-08-01"
+
+# Kein Build-Schritt: public/ wird unveraendert veroeffentlicht, functions/
+# liefert die Cloudflare Pages Functions unter /api/*.
+pages_build_output_dir = "public"
+
+[[r2_buckets]]
+binding = "RELEASES"
+bucket_name = "hrmonic-releases"

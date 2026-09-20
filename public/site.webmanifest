@@ -1,0 +1,30 @@
+{
+  "name": "jba~team",
+  "short_name": "jba~team",
+  "description": "An independent studio making apps, websites and games.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "browser",
+  "theme_color": "#F7F5FB",
+  "background_color": "#F7F5FB",
+  "icons": [
+    {
+      "src": "/assets/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/maskable-icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+# Alle Textdateien bleiben LF, so wie sie deployt werden; Binaerdateien erkennt Git selbst.
+* text=auto eol=lf

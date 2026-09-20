@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy - jba~team</title>
+<meta name="description" content="How jba~team handles your data in ScanConvert and on jba-team.com. Recognition runs on your device, images are never uploaded.">
+<link rel="canonical" href="https://jba-team.com/privacy">
+<meta name="theme-color" content="#F7F5FB">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="jba~team">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://jba-team.com/privacy">
+<meta property="og:title" content="Privacy Policy - jba~team">
+<meta property="og:description" content="How jba~team handles your data in ScanConvert and on jba-team.com.">
+<meta property="og:image" content="https://jba-team.com/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The jba~team wordmark on a soft pastel gradient. Below it: apps · websites · games.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image:alt" content="The jba~team wordmark on a soft pastel gradient. Below it: apps · websites · games.">
+<meta name="twitter:image" content="https://jba-team.com/assets/og-image.png">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts.css">
+<style>
+  :root{
+    /* brand spectrum pulled from the logo */
+    --blue:#3300F3;
+    --violet:#8A44FC;
+    --magenta:#FB00C3;
+    --pink:#FF81D8;
+
+    /* pastel tints of the same hues */
+    --pastel-blue:#D7DEFF;
+    --pastel-violet:#E6DBFF;
+    --pastel-pink:#FFDCF1;
+    --pastel-peach:#FFE7E0;
+
+    --ink:#171522;
+    --ink-soft:#5b5570;
+    --bg:#F7F5FB;
+
+    --grad: linear-gradient(100deg, var(--blue) 0%, var(--violet) 38%, var(--magenta) 72%, var(--pink) 100%);
+
+    --font-display:"Space Grotesk", system-ui, sans-serif;
+    --font-body:"Plus Jakarta Sans", system-ui, sans-serif;
+    --font-mono:"JetBrains Mono", ui-monospace, monospace;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--ink);
+    background:var(--bg);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- soft pastel blob field ---------- */
+  .scene{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:0;
+    pointer-events:none;
+  }
+  .blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(46px);
+    opacity:.6;
+    mix-blend-mode:multiply;
+  }
+  .b1{ width:54vw; height:54vw; left:-14vw; top:-16vw;
+       background:radial-gradient(circle at 35% 35%, var(--pastel-violet), transparent 70%); }
+  .b2{ width:46vw; height:46vw; right:-12vw; top:-10vw;
+       background:radial-gradient(circle at 60% 40%, var(--pastel-pink), transparent 70%); }
+  .b3{ width:50vw; height:50vw; left:-8vw; bottom:-20vw;
+       background:radial-gradient(circle at 50% 50%, var(--pastel-blue), transparent 70%); }
+  .b4{ width:42vw; height:42vw; right:-10vw; bottom:-18vw;
+       background:radial-gradient(circle at 40% 60%, var(--pastel-peach), transparent 70%); }
+
+  /* ---------- layout ---------- */
+  .wrap{
+    position:relative;
+    z-index:2;
+    max-width:860px;
+    margin:0 auto;
+    padding:clamp(22px,4vh,46px) clamp(22px,5vw,64px) clamp(40px,8vh,80px);
+  }
+
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:clamp(36px,7vh,64px);
+  }
+  .brand img{ height:44px; width:auto; display:block; }
+  .backlink{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:.02em;
+    color:var(--ink-soft);
+    text-decoration:none;
+    border:1px solid rgba(23,21,34,.12);
+    background:rgba(255,255,255,.55);
+    backdrop-filter:blur(6px);
+    padding:7px 13px;
+    border-radius:100px;
+    transition:color .2s, border-color .2s;
+  }
+  .backlink:hover{ color:var(--ink); border-color:rgba(23,21,34,.3); }
+
+  .status{
+    font-family:var(--font-mono);
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.22em;
+    color:var(--violet);
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .status::before{
+    content:"";
+    width:34px;height:1px;
+    background:linear-gradient(90deg,transparent,var(--violet));
+  }
+  .status::after{
+    content:"";
+    width:34px;height:1px;
+    background:linear-gradient(90deg,var(--violet),transparent);
+  }
+
+  h1{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(34px,6vw,56px);
+    line-height:1.05;
+    letter-spacing:-.03em;
+    margin:14px 0 6px;
+  }
+  h1 .bracket{
+    color:transparent;
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    font-weight:500;
+  }
+  .meta{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-bottom:clamp(28px,5vh,48px);
+  }
+
+  .card{
+    background:rgba(255,255,255,.72);
+    border:1px solid rgba(23,21,34,.08);
+    backdrop-filter:blur(8px);
+    border-radius:22px;
+    padding:clamp(24px,4vw,44px);
+    box-shadow:0 10px 30px -18px rgba(74,32,140,.35);
+  }
+
+  .card h2{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(19px,2.4vw,23px);
+    letter-spacing:-.01em;
+    margin:34px 0 10px;
+  }
+  .card h2:first-child{ margin-top:0; }
+  .card h2::before{
+    content:"~ ";
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .card p, .card li{
+    font-size:15.5px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  .card ul{ padding-left:22px; }
+  .card li{ margin-bottom:6px; }
+  .card a{ color:var(--violet); text-decoration:none; border-bottom:1px solid rgba(138,68,252,.3); }
+  .card a:hover{ border-bottom-color:var(--violet); }
+  .card .soft{ color:var(--ink-soft); }
+
+  .footer{
+    margin-top:clamp(30px,6vh,50px);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--ink-soft);
+    flex-wrap:wrap;
+  }
+  .footer .domain b{ color:var(--ink); font-weight:500; }
+  .footer .legal{ display:flex; gap:10px; }
+  .footer .legal a{
+    color:var(--ink-soft);
+    text-decoration:none;
+    border:1px solid rgba(23,21,34,.1);
+    background:rgba(255,255,255,.4);
+    padding:5px 11px;
+    border-radius:100px;
+    opacity:.75;
+    transition:opacity .2s, color .2s;
+  }
+  .footer .legal a:hover{ opacity:1; color:var(--ink); }
+
+  @media (max-width:640px){
+    .topbar{ margin-bottom:32px; }
+    .footer{ flex-direction:column; gap:12px; }
+  }
+
+  /* ============ custom cursor (fine pointers only), same as homepage ============ */
+  .cursor-dot,.cursor-ring{
+    position:fixed; top:0; left:0; z-index:9999;
+    pointer-events:none; border-radius:50%;
+    transform:translate(-50%,-50%);
+    display:none;
+  }
+  .cursor-dot{ width:8px; height:8px; background:var(--grad); }
+  .cursor-ring{
+    width:34px; height:34px;
+    border:1.5px solid rgba(138,68,252,.55);
+    transition:width .25s, height .25s, border-color .25s, background .25s;
+  }
+  body.cursor-on .cursor-dot, body.cursor-on .cursor-ring{ display:block; }
+  body.cursor-on, body.cursor-on a, body.cursor-on button{ cursor:none; }
+  body.cursor-text.cursor-on p, body.cursor-text.cursor-on h1, body.cursor-text.cursor-on h2,
+  body.cursor-text.cursor-on li, body.cursor-text.cursor-on .meta, body.cursor-text.cursor-on .status{ cursor:text; }
+  body.cursor-text .cursor-dot, body.cursor-text .cursor-ring{ opacity:0; }
+  .cursor-ring.is-hover{
+    width:56px; height:56px;
+    border-color:rgba(251,0,195,.7);
+    background:rgba(251,0,195,.06);
+  }
+</style>
+</head>
+<body>
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+  <div class="scene">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="blob b4"></div>
+  </div>
+
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="index.html" aria-label="jba~team">
+        <img src="assets/jba-logo.svg" alt="">
+      </a>
+      <a class="backlink" href="index.html">&larr; back to jba-team.com</a>
+    </header>
+
+    <span class="status">Legal</span>
+    <h1><span class="bracket">&lt;</span> Privacy Policy <span class="bracket">&gt;</span></h1>
+    <p class="meta">ScanConvert - Travel Tool &middot; Last updated: September 7, 2026</p>
+
+    <div class="card">
+      <h2>1. Overview</h2>
+      <p>This Privacy Policy explains how <b>jba~team</b> (&ldquo;we&rdquo;, &ldquo;us&rdquo;) handles your data when you use the Android app <b>ScanConvert - Travel Tool</b> (the &ldquo;App&rdquo;). The App converts prices captured through your camera into another currency and lets you collect converted amounts in travel budget lists.</p>
+      <p>We built ScanConvert to be privacy-friendly by design: text recognition happens entirely on your device, camera images are never uploaded, and your lists and settings are stored locally on your device only.</p>
+
+      <h2>2. Who is responsible</h2>
+      <p>The controller responsible for data processing in connection with the App is:</p>
+      <p>
+        jba~team<br>
+        Germany<br>
+        Email: <a href="mailto:management@jba-team.com">management@jba-team.com</a>
+      </p>
+
+      <h2>3. Camera and text recognition</h2>
+      <p>The App uses your device camera to recognize prices in the live camera preview. Text recognition is performed <b>entirely on your device</b> using Google ML&nbsp;Kit Text Recognition (on-device). Camera frames are processed in real time and are <b>never stored, uploaded, or transmitted</b> to us or to any third party.</p>
+      <p>Camera access requires your permission, which you can revoke at any time in your device settings. Without camera permission, you can still use the manual amount input.</p>
+
+      <h2>4. Exchange rates</h2>
+      <p>To convert currencies, the App periodically fetches current exchange rates from <a href="https://www.exchangerate-api.com" rel="noopener">open.er-api.com</a> (ExchangeRate-API). This request contains no personal data beyond what is technically necessary to make an internet request (such as your IP address). The retrieved rates are cached on your device so the App also works offline.</p>
+
+      <h2>5. Data stored on your device</h2>
+      <p>The following data is stored <b>locally on your device only</b> and is never transmitted to us:</p>
+      <ul>
+        <li>Your travel budget lists and their entries (amounts, currencies, budgets)</li>
+        <li>Your pinned favorite currencies and onboarding status</li>
+        <li>App settings (such as language) and the cached exchange rates</li>
+      </ul>
+      <p>If you uninstall the App, this data is deleted. You can also clear it at any time via your device's app settings (&ldquo;Clear data&rdquo;).</p>
+
+      <h2>6. Advertising (Google AdMob)</h2>
+      <p>The free version of the App shows ads served by <b>Google AdMob</b> (Google Ireland Ltd. / Google LLC). AdMob may process your device's advertising ID and other device information to serve and measure ads. Details can be found in <a href="https://policies.google.com/privacy" rel="noopener">Google's Privacy Policy</a> and in <a href="https://support.google.com/admob/answer/6128543" rel="noopener">Google's AdMob data usage documentation</a>.</p>
+      <p><b>Consent:</b> If you are in the European Economic Area, the UK, or Switzerland, we ask for your consent via Google's consent dialog (User Messaging Platform) before any ads are loaded. Personalized ads are only shown with your consent. You can review or change your choice at any time in the App under <i>Settings &rarr; Privacy options</i>.</p>
+      <p>If you purchase the ad-free upgrade, no ads are loaded and no advertising-related data is processed.</p>
+
+      <h2>7. In-app purchases</h2>
+      <p>Premium features (ad-free, unlimited lists, list export, Vacation Pass) are offered as in-app purchases via <b>Google Play Billing</b>. The purchase is processed entirely by Google Play; we do not receive your payment details. The App only receives confirmation of which features you have unlocked. See <a href="https://policies.google.com/privacy" rel="noopener">Google's Privacy Policy</a> for details on how Google processes payment data.</p>
+
+      <h2>8. List export</h2>
+      <p>You can export your lists (for example as CSV or PDF) using the export feature. Exports are created locally and shared only through the Android share dialog with an app of your choosing. What happens with the exported file afterwards is under your control.</p>
+
+      <h2>9. Your rights (GDPR)</h2>
+      <p>If you are in the EU/EEA, you have the right to access, rectify, erase, and restrict the processing of your personal data, the right to data portability, and the right to object to processing (Art. 15&ndash;21 GDPR). You also have the right to lodge a complaint with a supervisory authority.</p>
+      <p class="soft">Note: since almost all App data is stored only on your device and never reaches us, most of these rights can be exercised directly on your device (for example by deleting the App data). For advertising data processed by Google, please also refer to the controls in your Google settings and the in-app privacy options.</p>
+
+      <h2>10. Children</h2>
+      <p>The App is not directed at children under 16, and we do not knowingly collect personal data from children.</p>
+
+      <h2>11. This website</h2>
+      <p>Our website (jba-team.com) is a static site and does not use cookies, analytics, or tracking, except for one strictly necessary session cookie that is set only after a tester signs in to the oHRganize tester area; it keeps that tester signed in for up to 12 hours and is not used for tracking. Our hosting provider (Cloudflare) may process technical access logs (such as IP address and time of access) to deliver the site securely; script libraries are loaded from cdnjs.cloudflare.com, operated by the same provider. Fonts are served from our own domain; no requests are made to Google Fonts or any other third-party font service.</p>
+
+      <h2>12. Changes</h2>
+      <p>We may update this Privacy Policy from time to time, for example when we add features or when legal requirements change. The current version is always available on this page; the date above indicates the latest revision.</p>
+
+      <h2>13. Contact</h2>
+      <p>For any privacy-related questions, contact us at <a href="mailto:management@jba-team.com">management@jba-team.com</a>.</p>
+    </div>
+
+    <footer class="footer">
+      <span class="domain"><b>jba-team.com</b></span>
+      <span class="legal">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Use</a>
+      </span>
+    </footer>
+  </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+/* custom cursor (fine pointers, motion ok) - same behaviour as the homepage */
+(function(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!matchMedia('(pointer:fine)').matches || reduce || !window.gsap) return;
+  document.body.classList.add('cursor-on');
+  const dot = document.querySelector('.cursor-dot');
+  const ring = document.querySelector('.cursor-ring');
+  const setDotX = gsap.quickTo(dot, 'x', { duration:.08 });
+  const setDotY = gsap.quickTo(dot, 'y', { duration:.08 });
+  const setRingX = gsap.quickTo(ring, 'x', { duration:.35, ease:'power3' });
+  const setRingY = gsap.quickTo(ring, 'y', { duration:.35, ease:'power3' });
+  const TEXT_SEL = 'p, h1, h2, li, .meta, .status';
+  window.addEventListener('pointermove', e => {
+    setDotX(e.clientX); setDotY(e.clientY);
+    setRingX(e.clientX); setRingY(e.clientY);
+  });
+  window.addEventListener('pointerdown', e => {
+    const onText = e.target.closest &&
+      e.target.closest(TEXT_SEL) && !e.target.closest('a, button, input, label');
+    if (onText) document.body.classList.add('cursor-text');
+  });
+  window.addEventListener('pointerup', () => document.body.classList.remove('cursor-text'));
+  document.querySelectorAll('a, button').forEach(t => {
+    t.addEventListener('pointerenter', () => ring.classList.add('is-hover'));
+    t.addEventListener('pointerleave', () => ring.classList.remove('is-hover'));
+  });
+})();
+</script>
+</body>
+</html>

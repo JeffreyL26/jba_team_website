@@ -350,7 +350,45 @@
   }
 
   /* ---- terminal: type the path that was requested, then the error ---- */
-  const path = (location.pathname + location.search).slice(0, 80) || '/';
+  /* Anyone can craft a link to any path, and we reflect it on screen. So the
+     path is only echoed when it is a near-miss of a real page (a typo) AND
+     passes the word filter. Everything else is shown as "page". */
+  const KNOWN = ['scanconvert','ohrganize-testers','hrmonic-testers','ohrganize','hrmonic','privacy','terms','index'];
+  const BLOCKED = ('arsch arschloch scheiss scheisse fick ficken ficker hurensohn hure hurre wichser wixxer fotze votze ' +
+    'schlampe nutte spast mongo behindert missgeburt schwuchtel neger nigger nigga kanake zigeuner judensau nazi hitler ' +
+    'vergewaltig pimmel schwanz titten kacke pisser bastard drecksau hundesohn kinderficker pedo paedo ' +
+    'fuck shit bitch cunt dickhead asshole whore slut faggot retard rapist pussy porn').split(' ');
+  const LEET = { '€':'e', '$':'s', '@':'a', '+':'t', '0':'o', '3':'e', '4':'a', '5':'s', '7':'t', '8':'b', '9':'g' };
+  /* lowercase, strip accents, undo leetspeak, drop separators, collapse repeats */
+  function squash(s, one){
+    s = s.toLowerCase().replace(/ß/g, 'ss').normalize('NFKD').replace(/[̀-ͯ]/g, '');
+    s = s.replace(/[€$@+!0-9]/g, c => (c === '1' || c === '!') ? one : LEET[c]);
+    return s.replace(/[^a-z]/g, '').replace(/(.)\1+/g, '$1');
+  }
+  const BLOCKED_SQ = BLOCKED.map(w => squash(w, 'i'));
+  function isBlocked(s){
+    return ['i', 'l'].some(one => { const q = squash(s, one); return BLOCKED_SQ.some(w => q.includes(w)); });
+  }
+  function distance(a, b){
+    let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+    for (let i = 1; i <= a.length; i++){
+      const cur = [i];
+      for (let j = 1; j <= b.length; j++)
+        cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      prev = cur;
+    }
+    return prev[b.length];
+  }
+  function safePath(){
+    let raw;
+    try { raw = decodeURIComponent(location.pathname).replace(/^\/+|\/+$/g, ''); }
+    catch (e) { return 'page'; }
+    const p = raw.toLowerCase().replace(/\.html$/, '');
+    if (!/^[a-z0-9-]{1,40}$/.test(p)) return 'page';
+    const near = KNOWN.some(k => distance(p, k) <= (k.length >= 11 ? 2 : 1));
+    return near && !isBlocked(p) ? '/' + raw : 'page';
+  }
+  const path = safePath();
   const cmd = `cd ${path}`;
   const err = `\ncd: no such file or directory: ${path}`;
   const cmdEl = $('termCmd'), term = $('term');
